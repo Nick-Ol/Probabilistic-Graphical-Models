@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 #load the data
-tab = np.genfromtxt("../../Desktop/ECP/Cours 3A/MVA/PGM/TP1/classification_data_HWK1/classificationA.train")
+tab = np.genfromtxt("Data/classificationA.train")
 X1_A = tab[:,0]
 X2_A = tab[:,1]
 Y_A = tab[:,2].astype(int)
