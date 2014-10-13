@@ -12,7 +12,7 @@ def LinearRegression(tab):
         Xlr.append(np.append(X[i],1))
     Xlr = np.asarray(Xlr)
     
-    w = np.linalg.lstsq(Xlr,Y)[0]
+    w = np.squeeze(np.asarray(np.dot(np.dot(np.asmatrix(np.dot(Xlr.T,Xlr)).I, Xlr.T), Y)))
     
     colors = np.array(['r', 'b'])
     fig = plt.figure()

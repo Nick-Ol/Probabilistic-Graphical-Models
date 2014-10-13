@@ -29,25 +29,25 @@ def LDA(tab):
     sigma = np.asmatrix((sigma0 + sigma1)/2) #we take this as global sigma, as we suppose sigma1=sigma2
    
     #compute and plot the separator (black line)
-    w = np.dot(sigma.I,mu1-mu0)
-    b = math.log(p/(1-p)) - 0.5*np.dot(np.dot(((mu0+mu1).T),sigma.I),mu1-mu0)
-    w0 = np.dot(sigma0.I,mu1-mu0)
-    b0 = math.log(p/(1-p)) - 0.5*np.dot(np.dot(((mu0+mu1).T),sigma0.I),mu1-mu0)
-    w1 = np.dot(sigma1.I,mu1-mu0)
-    b1 = math.log(p/(1-p)) - 0.5*np.dot(np.dot(((mu0+mu1).T),sigma1.I),mu1-mu0)
-    
+    w = np.squeeze(np.asarray(np.dot(sigma.I,mu1-mu0)))
+    b = np.squeeze(np.asarray(math.log(p/(1-p)) - 0.5*np.dot(np.dot(((mu0+mu1).T),sigma.I),mu1-mu0)))
+    w0 = np.squeeze(np.asarray(np.dot(sigma0.I,mu1-mu0)))
+    b0 = np.squeeze(np.asarray(math.log(p/(1-p)) - 0.5*np.dot(np.dot(((mu0+mu1).T),sigma0.I),mu1-mu0)))
+    w1 = np.squeeze(np.asarray(np.dot(sigma1.I,mu1-mu0)))
+    b1 = np.squeeze(np.asarray(math.log(p/(1-p)) - 0.5*np.dot(np.dot(((mu0+mu1).T),sigma1.I),mu1-mu0)))
+
     colors = np.array(['r', 'b'])
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.scatter(X1, X2, c=colors[Y], lw=0) #points cloud. Red = 0, Blue = 1
-    print("LDA : coef directeur :", -w[0,0]/w[0,1], ", ordonnée à l'origine :", b[0,0]/w[0,1])
+    print("LDA : coef directeur :", -w[0]/w[1], ", ordonnée à l'origine :", b/w[1])
     x = np.arange(-8,8,0.5)
     #in black : sigma as (sigma0+sigma1)/2 - green : sigma 0 - yellow : sigma1
-    ax.plot(x, -w[0,0]*x/w[0,1]+b[0,0]/w[0,1], c='0')
-    ax.plot(x, -w0[0,0]*x/w0[0,1]+b0[0,0]/w0[0,1], c='g')
-    ax.plot(x, -w1[0,0]*x/w1[0,1]+b1[0,0]/w1[0,1], c='y')
+    ax.plot(x, -w[0]*x/w[1]+b/w[1], c='0')
+    ax.plot(x, -w0[0]*x/w0[1]+b0/w0[1], c='g')
+    ax.plot(x, -w1[0]*x/w1[1]+b1/w1[1], c='y')
     plt.xlim([np.min(X1), np.max(X1)])
     plt.ylim([np.min(X2), np.max(X2)])
     plt.title("LDA")
     
-    return w[0,0], w[0,1], -b[0,0]
+    return w[0], w[1], -b
