@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import numpy as np
 import matplotlib.pyplot as plt
 import math
@@ -28,7 +29,7 @@ for i in range(0,len(Y_A)):
       
 #LDA :
 #compute the estimators
-p = np.count_nonzero(Y_A)/len(Y_A)
+p = np.count_nonzero(Y_A)/float(len(Y_A))
 mu0 = np.asarray([np.mean(X10_A), np.mean(X20_A)])
 mu1 = np.asarray([np.mean(X11_A), np.mean(X21_A)])
 sigma0 = np.asmatrix(np.cov(X10_A, X20_A))
