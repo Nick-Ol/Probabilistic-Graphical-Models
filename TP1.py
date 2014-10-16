@@ -15,13 +15,13 @@ ax1 = fig1.add_subplot(111)
 ax1.scatter(X1_A, X2_A, c=colors[Y_A], lw=0)
 
 #separate the data according to labels
-X10_A = []
+X10_A = [tab[i,0] for i in range(0,len(tab)) if tab[i,2]==0] #this is called list comprehension
 X20_A = []
 X11_A = []
 X21_A = []
 for i in range(0,len(Y_A)):
     if Y_A[i]==0:
-        X10_A.append(X1_A[i])
+        #X10_A.append(X1_A[i])
         X20_A.append(X2_A[i])
     else:
         X11_A.append(X1_A[i])
