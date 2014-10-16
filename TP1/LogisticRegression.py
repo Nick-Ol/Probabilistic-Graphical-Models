@@ -3,17 +3,17 @@ import matplotlib.pyplot as plt
 import math
 
 #define the gradient and the hessian of the log-likelihood l
-sigmaid = lambda x: 1/(1+np.exp(-x))
+sigmoid = lambda x: 1/(1+np.exp(-x))
 def grad_l(w, Y, X):
     grad = 0
     for i in range(0, len(Y)):
-        grad = grad + (Y[i]-sigmaid(np.dot(w.T, X[i])))*X[i]
+        grad = grad + (Y[i]-sigmoid(np.dot(w.T, X[i])))*X[i]
     return grad
     
 def hess_l(w, Y, X):
     hess = 0
     for i in range(0, len(Y)):
-        hess = hess + sigmaid(np.dot(w.T, X[i]))*(1-sigmaid(np.dot(w.T, X[i])))*np.outer(X[i],X[i].T)
+        hess = hess + sigmoid(np.dot(w.T, X[i]))*(1-sigmoid(np.dot(w.T, X[i])))*np.outer(X[i],X[i].T)
     return np.asmatrix(hess)
     
 #implement Newton-Raphson's method

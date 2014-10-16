@@ -29,13 +29,14 @@ for c in filesList:
     cpt_linreg_train = 0
     cpt_qda_train = 0
     for i in range(0,len(Xtilde_train)):
-        if (np.dot(w_lda, Xtilde_train[i]) > 0) and (Y_train[i] == 0):
+        if ((np.dot(w_lda, Xtilde_train[i]) > 0) and (Y_train[i] == 0)) or ((np.dot(w_lda, Xtilde_train[i]) < 0) and (Y_train[i] == 1)):
             cpt_lda_train += 1
-        if (np.dot(w_logreg, Xtilde_train[i]) > 0) and (Y_train[i] == 0):
+        if ((np.dot(w_logreg, Xtilde_train[i]) > 0) and (Y_train[i] == 0)) or ((np.dot(w_logreg, Xtilde_train[i]) < 0) and (Y_train[i] == 1)):
             cpt_logreg_train += 1
-        if (np.dot(w_linreg, Xtilde_train[i]) > 0) and (Y_train[i] == 0):
+        if ((np.dot(w_linreg, Xtilde_train[i]) > 0) and (Y_train[i] == 0)) or ((np.dot(w_linreg, Xtilde_train[i]) < 0) and (Y_train[i] == 1)):
             cpt_linreg_train += 1
-        if (np.dot(X_train[i],np.squeeze(np.asarray(np.dot(W_qda, X_train[i])))) + np.dot(w_qda, X_train[i]) + b_qda > 0) and (Y_train[i] == 0):
+        if ((np.dot(X_train[i],np.squeeze(np.asarray(np.dot(W_qda, X_train[i])))) + np.dot(w_qda, X_train[i]) + b_qda > 0) and (Y_train[i] == 0))
+        or ((np.dot(X_train[i],np.squeeze(np.asarray(np.dot(W_qda, X_train[i])))) + np.dot(w_qda, X_train[i]) + b_qda < 0) and (Y_train[i] == 1)):
             cpt_qda_train += 1
     print("Size of classification"+c+".train :"+str(len(trainData)))
     print("Number of errors for LDA :"+str(cpt_lda_train))
@@ -59,13 +60,14 @@ for c in filesList:
     cpt_linreg_test = 0
     cpt_qda_test = 0
     for i in range(0,len(Xtilde_test)):
-        if (np.dot(w_lda, Xtilde_test[i]) > 0) and (Y_test[i] == 0):
+        if ((np.dot(w_lda, Xtilde_test[i]) > 0) and (Y_test[i] == 0)) or ((np.dot(w_lda, Xtilde_test[i]) < 0) and (Y_test[i] == 1)):
             cpt_lda_test += 1
-        if (np.dot(w_logreg, Xtilde_test[i]) > 0) and (Y_test[i] == 0):
+        if ((np.dot(w_logreg, Xtilde_test[i]) > 0) and (Y_test[i] == 0)) or ((np.dot(w_logreg, Xtilde_test[i]) < 0) and (Y_test[i] == 1)):
             cpt_logreg_test += 1
-        if (np.dot(w_linreg, Xtilde_test[i]) > 0) and (Y_test[i] == 0):
+        if ((np.dot(w_linreg, Xtilde_test[i]) > 0) and (Y_test[i] == 0)) or ((np.dot(w_linreg, Xtilde_test[i]) < 0) and (Y_test[i] == 1)):
             cpt_linreg_test += 1
-        if (np.dot(X_test[i],np.squeeze(np.asarray(np.dot(W_qda, X_test[i].T)))) + np.dot(w_qda, X_test[i].T) + b_qda > 0) and (Y_test[i] == 0):
+        if ((np.dot(X_test[i],np.squeeze(np.asarray(np.dot(W_qda, X_test[i].T)))) + np.dot(w_qda, X_test[i].T) + b_qda > 0) and (Y_test[i] == 0))
+        or ((np.dot(X_test[i],np.squeeze(np.asarray(np.dot(W_qda, X_test[i].T)))) + np.dot(w_qda, X_test[i].T) + b_qda < 0) and (Y_test[i] == 1)):
             cpt_qda_test += 1
     print("Size of classification"+c+".test :"+str(len(testData)))
     print("Number of errors for LDA :"+str(cpt_lda_test))
