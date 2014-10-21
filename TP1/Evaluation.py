@@ -43,11 +43,12 @@ for c in filesList:
         if (((np.dot(X_train[i],np.squeeze(np.asarray(np.dot(W_qda, X_train[i])))) + np.dot(w_qda, X_train[i]) + b_qda > 0) and (Y_train[i] == 0))
         or ((np.dot(X_train[i],np.squeeze(np.asarray(np.dot(W_qda, X_train[i])))) + np.dot(w_qda, X_train[i]) + b_qda < 0) and (Y_train[i] == 1))):
             cpt_qda_train += 1
+    trainLen = float(len(trainData))        
     print("Size of classification"+c+".train :"+str(len(trainData)))
-    print("Number of errors for LDA :"+str(cpt_lda_train))
-    print("Number of errors for Logistic regression :"+str(cpt_logreg_train))
-    print("Number of errors for Linear regression :"+str(cpt_linreg_train))
-    print("Number of errors for QDA :"+str(cpt_qda_train))
+    print("Number of errors for LDA :"+'%.3f' % (cpt_lda_train/trainLen))
+    print("Number of errors for Logistic regression :"+'%.3f' % (cpt_logreg_train/trainLen))
+    print("Number of errors for Linear regression :"+'%.3f' % (cpt_linreg_train/trainLen))
+    print("Number of errors for QDA :"+'%.3f' % (cpt_qda_train/trainLen))
     
     #load test data
     testData = np.genfromtxt("Data/classification"+c+".test")
@@ -74,11 +75,14 @@ for c in filesList:
         if (((np.dot(X_test[i],np.squeeze(np.asarray(np.dot(W_qda, X_test[i].T)))) + np.dot(w_qda, X_test[i].T) + b_qda > 0) and (Y_test[i] == 0))
         or ((np.dot(X_test[i],np.squeeze(np.asarray(np.dot(W_qda, X_test[i].T)))) + np.dot(w_qda, X_test[i].T) + b_qda < 0) and (Y_test[i] == 1))):
             cpt_qda_test += 1
+            
+    testLen = float(len(testData))        
+
     print("Size of classification"+c+".test :"+str(len(testData)))
-    print("Number of errors for LDA :"+str(cpt_lda_test))
-    print("Number of errors for Logistic regression :"+str(cpt_logreg_test))
-    print("Number of errors for Linear regression :"+str(cpt_linreg_test))
-    print("Number of errors for QDA :"+str(cpt_qda_test))
+    print("Number of errors for LDA :"+ '%.3f' % (cpt_lda_test/testLen))
+    print("Number of errors for Logistic regression :"+'%.3f' %(cpt_logreg_test/testLen))
+    print("Number of errors for Linear regression :"+'%.3f' %(cpt_linreg_test/testLen))
+    print("Number of errors for QDA :"+'%.3f' %(cpt_qda_test/testLen))
 
     #display points cloud and separators for train data
     #to do : test data
