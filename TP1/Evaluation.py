@@ -45,10 +45,10 @@ for c in filesList:
             cpt_qda_train += 1
     trainLen = float(len(trainData))        
     print("Size of classification"+c+".train :"+str(len(trainData)))
-    print("Number of errors for LDA :"+'%.3f' % (cpt_lda_train/trainLen))
-    print("Number of errors for Logistic regression :"+'%.3f' % (cpt_logreg_train/trainLen))
-    print("Number of errors for Linear regression :"+'%.3f' % (cpt_linreg_train/trainLen))
-    print("Number of errors for QDA :"+'%.3f' % (cpt_qda_train/trainLen))
+    print("Percentage of errors for LDA :"+'%.3f' % (cpt_lda_train/trainLen))
+    print("Percentage of errors for Logistic regression :"+'%.3f' % (cpt_logreg_train/trainLen))
+    print("Percentage of errors for Linear regression :"+'%.3f' % (cpt_linreg_train/trainLen))
+    print("Percentage of errors for QDA :"+'%.3f' % (cpt_qda_train/trainLen))
     
     #load test data
     testData = np.genfromtxt("Data/classification"+c+".test")
@@ -79,10 +79,10 @@ for c in filesList:
     testLen = float(len(testData))        
 
     print("Size of classification"+c+".test :"+str(len(testData)))
-    print("Number of errors for LDA :"+ '%.3f' % (cpt_lda_test/testLen))
-    print("Number of errors for Logistic regression :"+'%.3f' %(cpt_logreg_test/testLen))
-    print("Number of errors for Linear regression :"+'%.3f' %(cpt_linreg_test/testLen))
-    print("Number of errors for QDA :"+'%.3f' %(cpt_qda_test/testLen))
+    print("Percentage of errors for LDA :"+ '%.3f' % (cpt_lda_test/testLen))
+    print("Percentage of errors for Logistic regression :"+'%.3f' %(cpt_logreg_test/testLen))
+    print("Percentage of errors for Linear regression :"+'%.3f' %(cpt_linreg_test/testLen))
+    print("Percentage of errors for QDA :"+'%.3f' %(cpt_qda_test/testLen))
 
     #display points cloud and separators for train data
     #to do : test data
