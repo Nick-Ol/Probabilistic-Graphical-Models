@@ -42,4 +42,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+*.pdf
+*.synctex.gz
+*.log
+*.aux
 Exercises_22oct2014.pdf
