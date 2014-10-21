@@ -167,6 +167,24 @@ matrix $W =
 %
 \hspace*{-6mm}Here are the number of misclassification errors found on train and test sets :
 
+\begin{tabular}{|l|c|c|c|c|}
+  \hline
+  Errors on train sets & LDA & Logistic regression & Linear regression & QDA \\
+  \hline
+  A.train (size 150) & 2 & 2 & 2 & 1 \\
+  B.train (size 300) & 9 & 6 & 9 & 4 \\
+	C.train (size 400) & 19 & 16 & 22 & 21 \\
+  \hline
+\end{tabular}
 
+\begin{tabular}{|l|c|c|c|c|}
+  \hline
+  Errors on test sets & LDA & Logistic regression & Linear regression & QDA \\
+  \hline
+  A.test (size 1500) & 35 & 32 & 31 & 30 \\
+  B.test (size 2000) & 83 & 75 & 83 & 40 \\
+	C.test (size 3000) & 118 & 74 & 127 & 115 \\
+  \hline
+\end{tabular}
 
 \end{document}
