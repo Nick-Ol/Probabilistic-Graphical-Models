@@ -1,0 +1,32 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[applemac]{inputenc} %Careful with that Captain Ol.
+\usepackage{latexsym}
+\usepackage{graphics}
+\usepackage[francais]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{pstricks,pst-plot}
+\usepackage{calc}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[T1]{fontenc}
+\usepackage{stmaryrd}
+\pagestyle{plain}
+
+
+
+\begin{document}
+
+\section{Learning in discrete graphical models}
+
+Let $(x_1, z_1), \ldots, (x_N, z_N)$ be an i.i.d. sample of observations. We will denote $n_k$ the number of $z_i$s which are equal to $k$ ($k \in \llbracket 1, K \rrbracket$). We have $\sum\limits_{k=1}^{K} n_k = N$.
+\\We compute the likelihood for Z: $\mathcal{L} = \mathop{\Pi}\limits_{i=1}^n p(z = k) = \mathop{\Pi}\limits_{k=1}^K \pi_k^{n_k}$.
+\\Thus the log likelihood is equal to $\mathcal{L} = \sum\limits_{k=1}^K n_k \mathrm{log} \pi_k$.
+\\We want to maximize this quantity under the constraint that $\sum\limits_{k=1}^{K} \pi_k = 1$. Using a Lagrange multiplier method, we have that there exists $\lambda$ such that $$\forall k \in \llbracket 1, K \rrbracket, \frac{n_k}{\pi_k} = \lambda . 1$$
+that is $$\forall k \in \llbracket 1, K \rrbracket, n_k = \lambda \pi_k$$
+if we sum these $k$ equalities, since $\sum\limits_{k=1}^{K} n_k = N$, we get $\lambda = N$.
+So the likelihood is maximal iff $$\forall k \in \llbracket 1, K \rrbracket,  \pi_k = n_k/N$$
+which is a very natural result : the estimator for $p(Y=k)$ is just the proportion of observations $z_i$ equal to $k$.
+
+\end{document}
