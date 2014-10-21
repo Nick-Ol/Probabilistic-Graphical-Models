@@ -29,6 +29,7 @@ def QDA(tab):
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.scatter(X[:,0], X[:,1], c=colors[Y], lw=0) #points cloud. Red = 0, Blue = 1
+    print("QDA: matrice :", W, ", vecteur :", w, "constante :", b)
     x = np.arange(-8,8,0.02)
     Z1 = np.zeros(len(x))
     Z2 = np.zeros(len(x))
