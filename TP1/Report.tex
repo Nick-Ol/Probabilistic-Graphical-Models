@@ -21,12 +21,26 @@
 \section{Learning in discrete graphical models}
 
 Let $(x_1, z_1), \ldots, (x_N, z_N)$ be an i.i.d. sample of observations. We will denote $n_k$ the number of $z_i$s which are equal to $k$ ($k \in \llbracket 1, K \rrbracket$). We have $\sum\limits_{k=1}^{K} n_k = N$.
-\\We compute the likelihood for Z: $\mathcal{L} = \mathop{\Pi}\limits_{i=1}^n p(z = k) = \mathop{\Pi}\limits_{k=1}^K \pi_k^{n_k}$.
-\\Thus the log likelihood is equal to $\mathcal{L} = \sum\limits_{k=1}^K n_k \mathrm{log} \pi_k$.
-\\We want to maximize this quantity under the constraint that $\sum\limits_{k=1}^{K} \pi_k = 1$. Using a Lagrange multiplier method, we have that there exists $\lambda$ such that $$\forall k \in \llbracket 1, K \rrbracket, \frac{n_k}{\pi_k} = \lambda . 1$$
+\\We compute the likelihood for Z: $\mathcal{L} = \mathop{\Pi}\limits_{i=1}^N p(Z = z_i) = \mathop{\Pi}\limits_{k=1}^K \pi_k^{n_k}$.
+\\Thus the log likelihood is equal to $\ell = \mathcal{L} = \sum\limits_{k=1}^K n_k \mathrm{log} \pi_k$.
+\\We want to maximize this quantity under the constraint that $\sum\limits_{k=1}^{K} \pi_k = 1$. Using a Lagrange multiplier method, we have that there exists $\lambda$ such that $$\forall k \in \llbracket 1, K \rrbracket, \frac{n_k}{\pi_k} = \lambda \times 1$$
 that is $$\forall k \in \llbracket 1, K \rrbracket, n_k = \lambda \pi_k$$
 if we sum these $k$ equalities, since $\sum\limits_{k=1}^{K} n_k = N$, we get $\lambda = N$.
 So the likelihood is maximal iff $$\forall k \in \llbracket 1, K \rrbracket,  \pi_k = n_k/N$$
 which is a very natural result : the estimator for $p(Y=k)$ is just the proportion of observations $z_i$ equal to $k$.
+\\[5mm]The calculation is a bit more complicated for $\theta$, but the idea is the same.
+\\In a similar fashion, for $k$ and $m$ in $\llbracket 1, K \rrbracket$ and $\llbracket 1, M \rrbracket$ respectively, we denote $p_{m}$ the number of $x_i$s equal to $m$
+%, and whose label is equal to $k$. 
+\\We must have $\sum\limits_{m=1}^{M}  p_{m} = N$
+\\We compute the likelihood for $\theta$ : 
+$$\begin{aligned} \mathcal{L} &= \mathop{\Pi}\limits_{i=1}^N p(X = x_i) \\
+ &= \mathop{\Pi}\limits_{i=1}^N \sum\limits_{k=1}^K p(X=x_i | Z= k) p(Z=k)\\
+ & = \mathop{\Pi}\limits_{i=1}^N  \sum\limits_{k=1}^K \theta_{x_i k} \frac{n_k}{N} \\
+  & = \frac{1}{N^N} \mathop{\Pi}\limits_{i=1}^N  \sum\limits_{k=1}^K \theta_{x_i k} n_k \\
+    & = \frac{1}{N^N} \mathop{\Pi}\limits_{m=1}^M ( \sum\limits_{k=1}^K \theta_{m k} n_k )^{p_m}
+ \end{aligned}$$
+We must maximize this with the constraint that the sum of all $\theta_{m k}$s must be $K$.
+\\Again we use a Lagrange multiplier.
+
 
 \end{document}
