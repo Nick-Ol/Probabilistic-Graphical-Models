@@ -23,9 +23,10 @@ for c in filesList:
     w_lda = LDA(trainData)
     w_logreg = LogisticRegression(trainData)
     w_linreg = LinearRegression(trainData)
-    W_qda = QDA(trainData)[0]
-    w_qda = QDA(trainData)[1]
-    b_qda = QDA(trainData)[2]
+    qda = QDA(trainData)
+    W_qda = qda[0]
+    w_qda = qda[1]
+    b_qda = qda[2]
 
     #errors on train data
     cpt_lda_train = 0
