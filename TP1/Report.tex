@@ -38,13 +38,15 @@ Hence the log likelihood is equal to
  &= \sum\limits_{m=1}^M  \sum\limits_{k=1}^K p_{mk} \mathrm{log}(\theta_{m k})  +  \sum\limits_{m=1}^M  \sum\limits_{k=1}^K p_{mk} \mathrm{log}(\pi_m) \\
 &= \sum\limits_{m=1}^M  \sum\limits_{k=1}^K p_{mk} \mathrm{log}(\theta_{m k})  +  \sum\limits_{m=1}^M  n_m \mathrm{log}(\pi_m) 
  \end{aligned}$$
- \\We want to maximize this quantity wrt $\pi$ under the constraint that $\sum\limits_{m=1}^{M} \pi_m = 1$. Using a Lagrange multiplier method, we have that there exists $\lambda$ such that $$\forall m \in \llbracket 1, M \rrbracket, \frac{n_m}{\pi_m} = \lambda \times 1$$
-that is $$\forall m \in \llbracket 1, M \rrbracket, n_m = \lambda \pi_m$$
-if we sum these $m$ equalities, since $\sum\limits_{m=1}^{M} n_m = N$, we get $\lambda = N$.
+ \\We want to maximize this quantity wrt $\pi$ under the following constraint : $\sum\limits_{m=1}^{M} \pi_m = 1$. Using a Lagrange multiplier method, we have that for $\pi$ maximizing the llh, there exists $\lambda$ such that 
+ $$\forall m \in \llbracket 1, M \rrbracket, \frac{n_m}{\pi_m} = \lambda \times 1$$
+\\that is 
+$$\forall m \in \llbracket 1, M \rrbracket, n_m = \lambda \pi_m$$
+\\if we sum these $m$ equalities, since $\sum\limits_{m=1}^{M} n_m = N$ and $\sum\limits_{m=1}^{M} \pi_m = 1$, we get $\lambda = N$.
 So the likelihood is maximal wrt $\pi$ iff $$\forall m \in \llbracket 1, M \rrbracket,  \pi_m = n_m/N$$
 which is a very natural result : the estimator for $p(Y=m)$ is just the proportion of observations $z_i$ equal to $m$.
 %
-Now we must maximize the llh wrt $\theta$ with the constraint that for every $k$, $ \sum\limits_{m=1}^{M}  \theta_{mk} = 1$
+\\[5mm]Now we must maximize the llh wrt $\theta$ with the constraint that for every $k$, $ \sum\limits_{m=1}^{M}  \theta_{mk} = 1$
 \\Again we use a Lagrange multiplier.
 \\At a point of maximum log likelihood, we must have, for a fixed $m$, 
 %
