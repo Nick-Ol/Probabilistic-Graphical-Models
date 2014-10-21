@@ -21,26 +21,30 @@
 \section{Learning in discrete graphical models}
 
 Let $(x_1, z_1), \ldots, (x_N, z_N)$ be an i.i.d. sample of observations. We will denote $n_m$ the number of $z_i$s which are equal to $m$ ($m \in \llbracket 1, M \rrbracket$). We have $\sum\limits_{m=1}^{M} n_m = N$.
-\\We compute the likelihood for Z: $\mathcal{L} = \mathop{\Pi}\limits_{i=1}^N p(Z = z_i) = \mathop{\Pi}\limits_{m=1}^M \pi_m^{n_m}$.
-\\Thus the log likelihood is equal to $\ell = \mathcal{L} = \sum\limits_{m=1}^M n_m \mathrm{log} \pi_m$.
-\\We want to maximize this quantity under the constraint that $\sum\limits_{m=1}^{M} \pi_m = 1$. Using a Lagrange multiplier method, we have that there exists $\lambda$ such that $$\forall m \in \llbracket 1, M \rrbracket, \frac{n_m}{\pi_m} = \lambda \times 1$$
-that is $$\forall m \in \llbracket 1, M \rrbracket, n_m = \lambda \pi_m$$
-if we sum these $m$ equalities, since $\sum\limits_{m=1}^{M} n_m = N$, we get $\lambda = N$.
-So the likelihood is maximal iff $$\forall m \in \llbracket 1, M \rrbracket,  \pi_m = n_m/N$$
-which is a very natural result : the estimator for $p(Y=m)$ is just the proportion of observations $z_i$ equal to $m$.
-\\[5mm]The calculation is a bit more complicated for $\theta$, but the idea is the same.
+%\\We compute the likelihood for Z: $\mathcal{L} = \mathop{\Pi}\limits_{i=1}^N p(Z = z_i) = \mathop{\Pi}\limits_{m=1}^M \pi_m^{n_m}$.
+%\\Thus the log likelihood is equal to $\ell = \mathcal{L} = \sum\limits_{m=1}^M n_m \mathrm{log} \pi_m$.
+%
 \\In a similar fashion, for $k \in \llbracket 1, K \rrbracket$ and $\llbracket 1, M \rrbracket$ respectively, we denote $p_{mk}$ the number of $x_i$s equal to $k$, and whose label is equal to $m$. 
 \\For a fixed $m$; we have $\sum\limits_{k=1}^{K}  p_{mk} = n_m$
-\\We compute the likelihood for $\theta$ : 
+\\We compute the likelihood for $\theta$ and $\pi$ : 
 $$\begin{aligned} \mathcal{L} &= \mathop{\Pi}\limits_{i=1}^N p(X = x_i, Z = z_i) \\
  &= \mathop{\Pi}\limits_{i=1}^N p(X=x_i | Z= z_i) p(Z=z_i)\\
  & = \mathop{\Pi}\limits_{m=1}^M  \mathop{\Pi}\limits_{k=1}^K (\theta_{m k} \pi_m)^{p_{mk}} \\
-% & = \frac{1}{N^N} \mathop{\Pi}\limits_{i=1}^N  \sum\limits_{k=1}^K \theta_{x_i k} n_k \\
- % & = \frac{1}{N^N} \mathop{\Pi}\limits_{m=1}^M ( \sum\limits_{k=1}^K \theta_{m k} n_k )^{p_m}
+  \end{aligned}$$
+  %
+Hence the log likelihood is equal to
+ %
+ $$\begin{aligned} \ell & = \sum\limits_{m=1}^M  \sum\limits_{k=1}^K p_{mk} \mathrm{log}(\theta_{m k} \pi_m) \\
+ &= \sum\limits_{m=1}^M  \sum\limits_{k=1}^K p_{mk} \mathrm{log}(\theta_{m k})  +  \sum\limits_{m=1}^M  \sum\limits_{k=1}^K p_{mk} \mathrm{log}(\pi_m) \\
+&= \sum\limits_{m=1}^M  \sum\limits_{k=1}^K p_{mk} \mathrm{log}(\theta_{m k})  +  \sum\limits_{m=1}^M  n_m \mathrm{log}(\pi_m) 
  \end{aligned}$$
- Hence the log likelihood is equal to $$\ell = \sum\limits_{m=1}^M  \sum\limits_{k=1}^K p_{mk} \mathrm{log}(\theta_{m k} \pi_m) = \sum\limits_{m=1}^M  \sum\limits_{k=1}^K p_{mk} \mathrm{log}(\theta_{m k})  + C$$
- where $C$ is a term which does not depend on $\theta$.
-We must maximize this with the constraint that for every $k$, $ \sum\limits_{m=1}^{M}  \theta_{mk} = 1$
+ \\We want to maximize this quantity wrt $\pi$ under the constraint that $\sum\limits_{m=1}^{M} \pi_m = 1$. Using a Lagrange multiplier method, we have that there exists $\lambda$ such that $$\forall m \in \llbracket 1, M \rrbracket, \frac{n_m}{\pi_m} = \lambda \times 1$$
+that is $$\forall m \in \llbracket 1, M \rrbracket, n_m = \lambda \pi_m$$
+if we sum these $m$ equalities, since $\sum\limits_{m=1}^{M} n_m = N$, we get $\lambda = N$.
+So the likelihood is maximal wrt $\pi$ iff $$\forall m \in \llbracket 1, M \rrbracket,  \pi_m = n_m/N$$
+which is a very natural result : the estimator for $p(Y=m)$ is just the proportion of observations $z_i$ equal to $m$.
+%
+Now we must maximize the llh wrt $\theta$ with the constraint that for every $k$, $ \sum\limits_{m=1}^{M}  \theta_{mk} = 1$
 \\Again we use a Lagrange multiplier.
 \\At a point of maximum log likelihood, we must have, for a fixed $m$, 
 %
