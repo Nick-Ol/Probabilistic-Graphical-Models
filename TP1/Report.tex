@@ -38,7 +38,8 @@ Hence the log likelihood is equal to
  &= \sum\limits_{m=1}^M  \sum\limits_{k=1}^K p_{mk} \mathrm{log}(\theta_{m k})  +  \sum\limits_{m=1}^M  \sum\limits_{k=1}^K p_{mk} \mathrm{log}(\pi_m) \\
 &= \sum\limits_{m=1}^M  \sum\limits_{k=1}^K p_{mk} \mathrm{log}(\theta_{m k})  +  \sum\limits_{m=1}^M  n_m \mathrm{log}(\pi_m) 
  \end{aligned}$$
- \\We want to maximize this quantity wrt $\pi$ under the following constraint : $\sum\limits_{m=1}^{M} \pi_m = 1$. Using a Lagrange multiplier method, we have that for $\pi$ maximizing the llh, there exists $\lambda$ such that 
+ \\We are going to maximize this quantity with respect to $\pi$, and then with respect to $\Theta_1 = (\theta_{11}, \ldots, \theta_{M1})$, then $\Theta_2 = (\theta_{12}, \ldots, \theta_{M2})$, etc.
+ \\[5mm]First we want to maximize the llh wrt $\pi$ under the following constraint : $\sum\limits_{m=1}^{M} \pi_m = 1$. Using a Lagrange multiplier method, we have that for $\pi$ maximizing the llh, there exists $\lambda$ such that 
  $$\forall m \in \llbracket 1, M \rrbracket, \frac{n_m}{\pi_m} = \lambda \times 1$$
 \\that is 
 $$\forall m \in \llbracket 1, M \rrbracket, n_m = \lambda \pi_m$$
@@ -46,9 +47,9 @@ $$\forall m \in \llbracket 1, M \rrbracket, n_m = \lambda \pi_m$$
 So the likelihood is maximal wrt $\pi$ iff $$\forall m \in \llbracket 1, M \rrbracket,  \pi_m = n_m/N$$
 which is a very natural result : the estimator for $p(Y=m)$ is just the proportion of observations $z_i$ equal to $m$.
 %
-\\[5mm]Now we must maximize the llh wrt $\theta$ with the constraint that for every $k$, $ \sum\limits_{m=1}^{M}  \theta_{mk} = 1$
+\\[5mm]Now for every $k$ we must maximize the llh wrt $\Theta_k = (\theta_{1k}, \ldots, \theta_{Mk})$ with the constraint that $ \sum\limits_{m=1}^{M}  \theta_{mk} = 1$
 \\Again we use a Lagrange multiplier.
-\\At a point of maximum log likelihood, we must have, for a fixed $m$, 
+\\At a point of maximum log likelihood wrt $\Theta_k$, we must have:
 %
 $$\frac{p_{mk}}{ \theta_{mk}} = \lambda_k \times 1$$
 \\Which is equivalent to $p_{mk} = \lambda_k \theta_{mk}$
