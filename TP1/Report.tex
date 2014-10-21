@@ -74,8 +74,8 @@ $$\mathcal{L} = \mathop{\Pi}\limits_{i=1}^N ((1-\pi) f_0(x_i) + \pi f_1(x_i))$$
 %
 \\where $\pi = P(Y = 1)$ and $f_i$ is the density of a Gaussian law of mean $\mu_i$ and covariance matrix $\Sigma$.
 \\ $f_i(x) = {1 \over 2 \pi |\Sigma|^{1/2}} e^{(x-\mu_i)^{T} \Sigma^{-1} (x-\mu_i) / 2}$
-\\Then, the log likelihood is : $\ell =  \sum\limits_{i=1}^N n_k \mathrm{log} \pi_k$
-\\As an estimator of $\pi$, we have in the same way as previously : $\pi = n/N$ 
+\\Then, the log likelihood is : $\ell =  \sum\limits_{i=1}^N \mathrm{log} ((1-\pi) f_0(x_i) + \pi f_1(x_i))$
+\\As an estimator of $\pi$, we have in the same way as previously : $\pi = n_1/N$ 
 \\And by derivating $\ell$ we obtain as estimators of $\mu_i$ and $\Sigma$ :
 \\$\mu_i = \sum\limits_{k=1}^N x_{i,k}/n_i$ with $x_{i,k}$ the $x$s in the cluster i.
 \\$\Sigma = \sum\limits_{i=0}^1 \sum\limits_{k \, \mathrm{st} \, y_k = i} (x_{i,k} - \mu_i) (x_{i,k} - \mu_i)^{T} / (N-2)$ %cours Gillou
@@ -87,7 +87,7 @@ $$\mathcal{L} = \mathop{\Pi}\limits_{i=1}^N ((1-\pi) f_0(x_i) + \pi f_1(x_i))$$
 $b = (\mu_1^{T} \Sigma^{-1} \mu_1 + \mu_0^{T} \Sigma^{-1} \mu_0)/2$ we find the same result as for logistic regression.
 %
 %
-\\[5mm] Here are the separators obtained on the 3 train datasets (black lines): 
+\\[5mm] Here are the separators obtained on the 3 train datasets (black lines, the green and yellow lines correspond to the computation if we take respectively the covariance matrix of the points of label 0 or of label 1): 
 
 \begin{figure}[H]
 \centering
