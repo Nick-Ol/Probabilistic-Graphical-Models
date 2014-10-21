@@ -2,7 +2,7 @@
 
 \usepackage[applemac]{inputenc} %Careful with that Captain Ol.
 \usepackage{latexsym}
-\usepackage{graphics}
+\usepackage{graphicx}
 \usepackage[francais]{babel}
 \usepackage{amsmath,amssymb}
 \usepackage{pstricks,pst-plot}
@@ -12,6 +12,7 @@
 \usepackage{lastpage}
 \usepackage[T1]{fontenc}
 \usepackage{stmaryrd}
+\usepackage{float}
 \pagestyle{plain}
 
 
@@ -55,6 +56,88 @@ $$\frac{p_{mk}}{ \theta_{mk}} = \lambda_k \times 1$$
 \\Which is equivalent to $p_{mk} = \lambda_k \theta_{mk}$
 \\Summing on $m$ we get $n_k = \lambda \times 1$
 \\Hence $\theta_{mk} = \frac{p_{mk}}{n_k}$.
+
+\section{Linear classification}
+
+\subsection{Generative model (LDA)}
+
+(a) The likelihood of this model can be written : $\mathcal{L} = \mathop{\Pi}\limits_{i=1}^N ((1-\pi) f_0(x_i) + \pi f_1(x_i))$
+\\with $\pi = P(Y = 1)$ and $f_i$ the density of a Gaussian law of mean $\mu_i$ and covariance matrix $\Sigma$.
+\\ $f_i(x) = {1 \over 2 \pi |\Sigma|^{1/2}} e^{(x-\mu_i)^{T} \Sigma^{-1} (x-\mu_i) / 2}$
+\\Then, the log likelihood is : $\ell =  \sum\limits_{i=1}^N n_k \mathrm{log} \pi_k$
+\\As an estimator of $\pi$, we have in the same way as previously : $\pi = n/N$ 
+\\And by deriving $\ell$ we obtain as estimators of $\mu_i$ and $\Sigma$ :
+\\$\mu_i = \sum\limits_{k=1}^N x_{i,k}/n_i$ with $x_{i,k}$ the x in the cluster i.
+\\$\Sigma = \sum\limits_{i=0}^1 \sum\limits_{k/ y_k = i} (x_{i,k} - \mu_i) (x_{i,k} - \mu_i)^{T} / (N-2)$ %cours Gillou
+
+\medskip
+(b) The form of the conditional distribution is :
+\\$P(y=1|x) = {P(y=1) P(x|y=1) \over P(x)} = {1 \over 1+{\pi \over 1-\pi} f_0(x)/f_1(x)}$
+\\If we take $\pi = 1/2$ and $w = \Sigma^{-1} (\mu_0 - \mu_1)$ and the constant
+$b = (\mu_1^{T} \Sigma^{-1} \mu_1 + \mu_0^{T} \Sigma^{-1} \mu_0)/2$ we find the same result as for logistic regression.
+
+\medskip
+(c) Here are the separators obtained on the 3 train datasets (black lines): 
+
+\begin{figure}[H]
+\centering
+\noindent\includegraphics[scale=0.3]{images/LDA_A.jpeg}
+\noindent\includegraphics[scale=0.3]{images/LDA_B.jpeg}
+\noindent\includegraphics[scale=0.3]{images/LDA_C.jpeg}
+\caption{Left: dataset A; middle: dataset B; right: dataset C}
+\end{figure}
+
+\subsection{Logistic regression}
+
+(a) On dataset A, we obtained : $w_A = (-0.706, -0,029)$.
+//On dataset B : $w_B = (1.766, -1,096)$.
+//And on dataset C : $w_C = (4.408, -1.613)$
+
+\medskip
+(b) Here are the separators obtained on the 3 train datasets : 
+
+\begin{figure}[H]
+\centering
+\noindent\includegraphics[scale=0.2]{images/logistic_A.jpeg}
+\noindent\includegraphics[scale=0.2]{images/logistic_B.jpeg}
+\noindent\includegraphics[scale=0.2]{images/logistic_C.jpeg}
+\caption{Left: dataset A; middle: dataset B; right: dataset C}
+\end{figure}
+
+\subsection{Linear regression}
+
+(a) On dataset A, we obtained : $w_A = (-0.709, -0,021)$.
+//On dataset B : $w_B = (2.013, -0.001)$.
+//And on dataset C : $w_C = (-7.511, 0.494)$
+
+\medskip
+(b) Here are the separators obtained on the 3 train datasets : 
+
+\begin{figure}[H]
+\centering
+\noindent\includegraphics[scale=0.2]{images/linear_A.jpeg}
+\noindent\includegraphics[scale=0.2]{images/linear_B.jpeg}
+\noindent\includegraphics[scale=0.2]{images/linear_C.jpeg}
+\caption{Left: dataset A; middle: dataset B; right: dataset C}
+\end{figure}
+
+\subsection{QDA model}
+
+
+(b) Here are the separators obtained on the 3 train datasets : 
+
+\begin{figure}[H]
+\centering
+\noindent\includegraphics[scale=0.2]{images/qda_A.jpeg}
+\noindent\includegraphics[scale=0.2]{images/qda_B.jpeg}
+\noindent\includegraphics[scale=0.2]{images/qda_C.jpeg}
+\caption{Left: dataset A; middle: dataset B; right: dataset C}
+\end{figure}
+
+\subsection{Comparison}
+
+(a) Here are the number of misclassification errors founded on train and test sets :
+
 
 
 \end{document}

@@ -35,8 +35,8 @@ def QDA(tab):
     k=0
     #we are looking for the roots of the quadratic equation
     for xx in x:
-        Z1[k] = np.max(np.roots([W[0,0], (W[0,1] + W[1,0])*xx + w[1], W[0,0]*xx**2 + w[0]*xx + b]))
-        Z2[k] = np.min(np.roots([W[0,0], (W[0,1] + W[1,0])*xx + w[1], W[0,0]*xx**2 + w[0]*xx + b]))
+        Z1[k] = np.max(np.roots([W[1,1], (W[0,1] + W[1,0])*xx + w[1], W[0,0]*xx**2 + w[0]*xx + b]))
+        Z2[k] = np.min(np.roots([W[1,1], (W[0,1] + W[1,0])*xx + w[1], W[0,0]*xx**2 + w[0]*xx + b]))
         k += 1
     
     #plot the curves for the two roots    
