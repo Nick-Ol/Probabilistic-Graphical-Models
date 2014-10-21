@@ -33,7 +33,7 @@ def LDA(tab):
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.scatter(X[:,0], X[:,1], c=colors[Y], lw=0) #points cloud. Red = 0, Blue = 1
-    print("LDA : coef directeur :", -w[0]/float(w[1]), ", ordonnee a l'origine :", b/w[1])
+    print("LDA : w0 :", w[0], ", w1 :", w[1], ",b :", b)
     x = np.arange(-8,8,0.5)
     #in black : sigma as (sigma0+sigma1)/2 - green : sigma 0 - yellow : sigma1
     ax.plot(x, -w[0]*x/float(w[1])+b/float(w[1]), c='0')

@@ -20,7 +20,7 @@ def LinearRegression(tab):
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.scatter(X[:,0], X[:,1], c=colors[Y], lw=0) #points cloud. Red = 0, Blue = 1
-    print("Linear regression: coef directeur :", -w[0]/w[1], ", ordonnee a l'origine :", -(w[2]-0.5)/w[1])
+    print("Linear regression: : w0 :", w[0], ", w1 :", w[1], ",b :", w[2] - 0.5)
     x = np.arange(-8,8,0.5)
     ax.plot(x, -w[0]*x/w[1]-(w[2]-0.5)/w[1], c='0') #separator
     plt.xlim([np.min(X[:,0]), np.max(X[:,0])])
