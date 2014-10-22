@@ -73,11 +73,11 @@ $$\frac{p_{mk}}{ \theta_{mk}} = \lambda_k \times 1$$
 $$\mathcal{L} = \mathop{\Pi}\limits_{i=1}^N ((1-\pi) f_0(x_i) + \pi f_1(x_i))$$
 %
 \\where $\pi = P(Y = 1)$ and $f_i$ is the density of a Gaussian law of mean $\mu_i$ and covariance matrix $\Sigma$.
-\\ $f_i(x) = {1 \over 2 \pi |\Sigma|^{1/2}} e^{(x-\mu_i)^{T} \Sigma^{-1} (x-\mu_i) / 2}$
+\\ In dimension 2, $f_i(x) = {1 \over 2 \pi |\Sigma|^{1/2}} e^{(x-\mu_i)^{T} \Sigma^{-1} (x-\mu_i) / 2}$
 \\Then, the log likelihood is : $\ell =  \sum\limits_{i=1}^N \mathrm{log} ((1-\pi) f_0(x_i) + \pi f_1(x_i))$
-\\As an estimator of $\pi$, we have in the same way as previously : $\pi = n_1/N$ 
-\\And by derivating $\ell$ we obtain as estimators of $\mu_i$ and $\Sigma$ :
-\\$\mu_i = \sum\limits_{k=1}^N x_{i,k}/n_i$ with $x_{i,k}$ the $x$s in the cluster i.
+\\As an estimator of $\pi$, we have in the same way as previously : $\pi = n_1/N$  (proportion of observations whose label is 1).
+\\And by differentiating $\ell$ we obtain as estimators of $\mu_i$ and $\Sigma$ :
+\\$\mu_i = \sum\limits_{k=1}^N x_{i,k}/n_i$ with $x_{i,k}$ the $x$s in the cluster $i$.
 \\$\Sigma = \sum\limits_{i=0}^1 \sum\limits_{k \, \mathrm{st} \, y_k = i} (x_{i,k} - \mu_i) (x_{i,k} - \mu_i)^{T} / (N-2)$ %cours Gillou
 %
 %
@@ -99,9 +99,9 @@ $b = (\mu_1^{T} \Sigma^{-1} \mu_1 + \mu_0^{T} \Sigma^{-1} \mu_0)/2$ we find the 
 
 \subsection{Logistic regression}
 %
-\hspace*{-6mm}(a) On dataset A, we obtained : $w_A = (-0.576, -0.817, -0.024)$.
-\\On dataset B : $w_B = -0.766, 0.433, 0.475)$.
-\\And on dataset C : $w_C = (-0.919, 0.208, 0.336)$
+\hspace*{-6mm}(a) On dataset A, we obtained : $w_A^T = (-0.576, -0.817),\; b_A= -0.024$.
+\\On dataset B : $w_B^T = (-0.766, 0.433), \; b_B= 0.475$.
+\\And on dataset C : $w_C^T = (-0.919, 0.208), \; b_C =0.336$.
 %
 %
 \\[5mm](b) Here are the separators obtained on the 3 train datasets : 
@@ -116,9 +116,9 @@ $b = (\mu_1^{T} \Sigma^{-1} \mu_1 + \mu_0^{T} \Sigma^{-1} \mu_0)/2$ we find the 
 
 \subsection{Linear regression}
 %
-\hspace*{-6mm}(a) On dataset A, we obtained : $w_A = (-0.264, -0,373, -0.008)$.
-\\On dataset B : $w_B = (-0.104, 0.052, 5.043)$.
-\\And on dataset C : $w_C = (-0.128, -0.017, 0.008)$
+\hspace*{-6mm}(a) On dataset A, we obtained : $w_A^T = (-0.264, -0.373), \; b_A = -0.008$.
+\\On dataset B : $w_B^T = (-0.104, 0.052), \; b_B = 5.043$.
+\\And on dataset C : $w_C^T = (-0.128, -0.017) \;b_C = 0.008$.
 %
 %
 \\[5mm]Here are the separators obtained on the 3 train datasets : 
@@ -131,26 +131,26 @@ $b = (\mu_1^{T} \Sigma^{-1} \mu_1 + \mu_0^{T} \Sigma^{-1} \mu_0)/2$ we find the 
 \caption{Top left: dataset A; top right: dataset B; bottom: dataset C}
 \end{figure}
 
-\subsection{QDA model}
+\subsection{QDA model (we'll do the comparison after that)}
 %
 
 \hspace*{-6mm}The numerical values are, for dataset A :
 matrix $W = 
 \bigl(\begin{smallmatrix}
 -0.731&-1.461\\ -1.461&2.755
-\end{smallmatrix} \bigr)$, vector w = (-7.249, -10.698) and constant b = -0.608.
+\end{smallmatrix} \bigr)$, vector $w^T = (-7.249, -10.698)$ and constant $b = -0.608$.
 %
 \\The numerical values are, for dataset B :
 matrix $W = 
 \bigl(\begin{smallmatrix}
 -0.477&-1.911\\ -1.911&-5.492
-\end{smallmatrix} \bigr)$, vector w = (-2.265, 1.447) and constant b = 3.354.
+\end{smallmatrix} \bigr)$, vector $w^T = (-2.265, 1.447)$ and constant $b = 3.354$.
 %
 \\The numerical values are, for dataset C :
 matrix $W = 
 \bigl(\begin{smallmatrix}
 0.002&-0.145\\ -0.145&0.117
-\end{smallmatrix} \bigr)$, vector w = (-2.651, 0.345) and constant b = 0.107.
+\end{smallmatrix} \bigr)$, vector $w^T = (-2.651, 0.345)$ and constant $b = 0.107$.
 %
 \\[5mm] Here are the separators obtained on the 3 train datasets : 
 
@@ -186,9 +186,29 @@ matrix $W =
   C.test (size 3000) & .040 & .025 & .042 & .038 \\
   \hline
 \end{tabular}
-
-We can see that on datasets A and B, QDA method gives the best results, whereas it it the logistic regression for dataset C. Actually, the predominance of QDA method can be explained because it computes a quadratic classifier which can better fit to the data (and then it is at least always better than the LDA method), without overfitting though.
-//The LDA method works quite well when the data actually are distributed according to the same covariance matrix, as for dataset A, but it is a bit absurd to do so when it is not the case.
-//The linear classifier can do bad when there is a little bunch of data decentralized as for dataset C. The logistic regression is better in this situation.
-
+%
+\\[11mm]We can see that on datasets A and B, QDA method gives the best results (for both test and training), whereas the logistic regression is the best for dataset C (still for both testing and training). Actually, the predominance of QDA method can be explained because it computes a quadratic classifier which can better fit to the data (and then it is at least always better than the LDA method), without overfitting though, because we still consider a relatively small class $\mathcal{G}$ of classifiers.
+\\[3mm]The \underline{LDA method} works quite well when the data actually are distributed according to the same covariance matrix, as for dataset A, but it is not suited for B and C: 
+\\- for B, the variances are clearly not the same for both populations (but relaxing this hypothesis, we have QDA which performs well).
+\\- for C, the blue population has two small clusters and is not well represented by a single gaussian (QDA with 3 gaussians could perform fine here).
+\\[3mm]The \underline{linear classifier} can do bad when there is a little bunch of data decentralized (far from the separator) as for dataset C ; it tends to overestimate their importance and try to get closer to them, even if it means mislabeling data closer to the separator. The logistic regression is better in this situation.
+\\[5mm]We can question our interpretation of results for A, since A.test is quite small (150 points) and we have 2 or 3 errors for each classification ; for A.test the relative errors are not very different either (2.1\% to 2.3 \% on 1,500 obs.)
+\\[10mm]
+%
+To see if one of our classifiers overfits, we compute the ratio of errors on test set and training set :
+\\
+\\
+\begin{tabular}{|l|c|c|c|c|}
+  \hline
+  Ratio test/training& LDA & Logistic regression & Linear regression & QDA \\
+  \hline
+  A & 1.77 & 1.61 & 1.61 & 2.86 \\
+  B & 1.40 & 1.85 & 1.40 & 1.54 \\
+  C& 0.83 & 0.63 & 0.76 & 0.73 \\
+  \hline
+\end{tabular}
+%
+\\[5mm]There might be a bias because we do not know how the data was split into test and training.
+\\All classifiers do better on C when testing than when trained. To be sure, we should mix C.test and C.train and perform 5 or 10fold cross validation on the unified dataset.
+\\Apart from that, ratios are quite similar given a dataset, except QDA for A. QDA has more degrees of freedom than LDA, so it is indeed more likely to overfit. Linear regression has few degrees of freedom, and we saw that it performs badly even on the training set when the data is not suited, so it is not suspect of overfitting. Indeed, the ratio for linreg is amongst the lowest for each dataset.
 \end{document}
