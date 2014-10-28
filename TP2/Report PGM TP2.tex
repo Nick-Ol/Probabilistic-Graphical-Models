@@ -1,0 +1,129 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{etex}
+\usepackage[applemac]{inputenc}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage[francais]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{pstricks,pst-plot}
+\usepackage{calc}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[T1]{fontenc}
+\usepackage{stmaryrd}
+\usepackage{float}
+\pagestyle{plain}
+\usepackage[top=2cm, bottom=2cm, left=3cm, right=3cm]{geometry}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+\newcommand{\indep}{\rotatebox[origin=c]{90}{$\models$}}
+
+	\title{Probabilistic Graphical Models : Assignment 2}
+	\author{Mathurin \textsc{Massias} \and ClŽment \textsc{Nicolle}}
+	\date{\today}
+
+\begin{document}
+	
+	\maketitle
+
+\section{Distributions factorizing in a graph}
+
+\textit{(a)}
+\\i. This is a covered edge, for example :
+\\
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (1) {};
+\node[main node] (2) [below of=1] {i};
+\node[main node] (3) [right of=2] {j};
+\node[main node] (4) [below of=2] {};
+
+\path[every node/.style={font=\sffamily\small}]
+	(1) edge node {} (2)
+	edge node {} (3)
+	(2) edge node {} (3)
+	(4) edge node  {} (2)
+	edge node {} (3);
+
+\end{tikzpicture}
+\end{center}
+
+The parents of the node $j$ are $\left\lbrace  i + parents\:of\:i \right\rbrace$. We now reverse $i \rightarrow j$. Let show that $\mathcal{L}(G) = \mathcal{L}(G')$
+\\
+\\
+If $p(x) \in \mathcal{L(G)}$ we have :
+\\$p(x) = \mathop{\Pi}\limits_{k=1}^N p(x_k | x_{\pi_k}) = \mathop{\Pi}\limits_{k \not\in \left\lbrace i,j \right\rbrace} p(x_k | x_{\pi_k}) \times p(x_i | x_{\pi_i}) \times p(x_j | x_{\pi_j}) $
+\\
+But, with $\pi_j = \pi_i \cup \left\lbrace i \right\rbrace$, we have :
+\\
+$p(x_i | x_{\pi_i}) \times p(x_j | x_{\pi_j}) = p(x_i | x_{\pi_i}) \times p(x_j | x_{\pi_i}, x_i) = p(x_i | x_{\pi_i}) \times p(x_j | x_{\pi_i})$
+\\ \-\hspace{1cm} because $x_i$ depends on $x_{\pi_i}$
+\\And if we reverse  $i \rightarrow j$, $x_{\pi_i}$ becomes $x_{\pi_j}$ and the value of the product above will be the same.
+\\
+\\
+So $\mathcal{L}(G) = \mathcal{L}(G')$
+\\
+\\
+ii. Let $G$ be a directed tree without v-structures and $G'$ the undirected tree with the same edges (the symmetrized graph). Let show that $\mathcal{L}(G) = \mathcal{L}(G')$
+\\
+\\
+As there is no v-structures in $G$, it means that the cliques of $G'$ are only composed of couples : $C= \left\lbrace (x_i, x_{\pi_i}) \right\rbrace$
+\\Each $x_i$ has a single parent.
+\\Thus we have $p(x) = \mathop{\Pi}\limits_{k=1}^N p(x_k | x_{\pi_k}) = \frac{1}{Z} \mathop{\Pi}\limits_{c \in C} \psi_c (x_c) $ with $\psi_c (x_c) \: \alpha \: p(x_c | x_{\pi_c})$
+\\
+\\
+So $\mathcal{L}(G) = \mathcal{L}(G')$
+\\
+\\
+\textit{(b)}
+\\According to (a)ii., if the number of nodes is 1 or 2 we have no v-structures so $\mathcal{L}(G) = \mathcal{L}(G')$.
+For 3 nodes, we need to oblige to have a v-structure in the directed graph. If we chose an undirected graph where the three nodes ae linked, we will compulsorily have a v-structure, as below :
+
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (1) {1};
+\node[main node] (2) [below of=1] {2};
+\node[main node] (3) [right of=2] {3};
+
+\path[every node/.style={font=\sffamily\small}]
+(1) edge node {} (2)
+	edge node {} (3)
+(2) edge node {} (3);
+
+\end{tikzpicture}
+\end{center}
+
+So the symmetrized graph is composed of only one maximal clique, but we have $p(x) = p(x_1) \times p(x_2 | x_1) \ times p(x_3 | x_1, x_2)$, which cannot be written as $\psi(x_1, x_2, x_3)$
+
+\section{d-separation}
+
+\textit{(a)}
+\\We saw this definition in class : A and B are d-separated by S if all chains from $a \in A$ to $b \in B$ (in the symmetrized graph) are blocked at least at one node in S. 
+\\ Here we know that S separates A and B in the moral graph $G_M$, which includes the symmetrized graph. So S also separates A and B in the symmetrized graph. Therefore, A and B are d-separated by S in G.
+\\
+\\\textit{(b)}
+\\Let's go back to the definition.
+\\A and B are d-separated by S means that all chains from $a \in A$ to $b \in B$ are blocked at one node in S.
+\\A and S are d-separated by T means that all chains from $a \in A$ to $s \in S$ are blocked at one node in T.
+\\So all chains from $a \in A$ to $b \in B$ will go through S, and then through T before that.
+\\We have that all chains from $a \in A$ to $b \in B$ are blocked at one node in T. In other terms, A and B are d-separated by T.
+\\
+\\\textit{(c)}
+\\- $X_{\left\lbrace 1,2 \right\rbrace} \indep X_4 | X_3$ : False
+%not sure and can't really tell why
+\\
+\\- $X_{\left\lbrace 1,2 \right\rbrace} \indep X_4 | X_5$ : False
+%idem
+\\
+\\$X_1 \indep X_6 | X_{\left\lbrace 2,4,7 \right\rbrace}$ : True
+\\Indeed, as $X_{\pi_6} = X_7$ we have $X_6 | X_{\left\lbrace 2,4,7 \right\rbrace} = X_6 \indep X_7$, and we are in the scheme of a Markov chain.
+
+\end{document}
