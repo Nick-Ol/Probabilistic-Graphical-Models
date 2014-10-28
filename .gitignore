@@ -42,8 +42,19 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Latex files
+
 *.pdf
 *.synctex.gz
 *.log
 *.aux
+*.bbl
+*.blg
 Exercises_22oct2014.pdf
+
+*.rar
+*.pyc
+*.tmp
+
+
+
