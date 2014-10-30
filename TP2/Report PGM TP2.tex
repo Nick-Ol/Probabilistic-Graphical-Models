@@ -73,9 +73,8 @@ So $\mathcal{L}(G) = \mathcal{L}(G')$
 ii. Let $G$ be a directed tree without v-structures and $G'$ the undirected tree with the same edges (the symmetrized graph). Let show that $\mathcal{L}(G) = \mathcal{L}(G')$
 \\
 \\
-As there is no v-structures in $G$, it means that the cliques of $G'$ are only composed of couples : $C= \left\lbrace (x_i, x_{\pi_i}) \right\rbrace$
-\\Each $x_i$ has a single parent.
-\\Thus we have $p(x) = \mathop{\Pi}\limits_{k=1}^N p(x_k | x_{\pi_k}) = \frac{1}{Z} \mathop{\Pi}\limits_{c \in C} \psi_c (x_c) $ with $\psi_c (x_c) \: \alpha \: p(x_c | x_{\pi_c})$
+As there is no v-structures in $G$, it means that the cliques of $G'$ are only composed of couples : $C= \left\lbrace (x_i, x_{\pi_i}) \right\rbrace$ (each $x_i$ has a single parent).
+\\Thus we have $p(x) = \mathop{\Pi}\limits_{c=1}^N p(x_c | x_{\pi_c}) = \frac{1}{Z} \mathop{\Pi}\limits_{c \in C} \psi_c (x_c) $ with $\psi_c (x_c) \: \alpha \: p(x_c | x_{\pi_c})$
 \\
 \\
 So $\mathcal{L}(G) = \mathcal{L}(G')$
@@ -83,7 +82,7 @@ So $\mathcal{L}(G) = \mathcal{L}(G')$
 \\
 \textit{(b)}
 \\According to (a)ii., if the number of nodes is 1 or 2 we have no v-structures so $\mathcal{L}(G) = \mathcal{L}(G')$.
-For 3 nodes, we need to oblige to have a v-structure in the directed graph. If we chose an undirected graph where the three nodes ae linked, we will compulsorily have a v-structure, as below :
+For 3 nodes, we need to oblige to have a v-structure in the directed graph. If we choose an undirected graph where the three nodes ae linked, we will compulsorily have a v-structure, as below :
 
 \begin{center}
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
@@ -101,29 +100,58 @@ thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
 \end{tikzpicture}
 \end{center}
 
-So the symmetrized graph is composed of only one maximal clique, but we have $p(x) = p(x_1) \times p(x_2 | x_1) \ times p(x_3 | x_1, x_2)$, which cannot be written as $\psi(x_1, x_2, x_3)$
+So the symmetrized graph is composed of only one maximal clique, but we have $p(x) = p(x_1) \times p(x_2 | x_1) \times p(x_3 | x_1, x_2)$, which cannot be written as $\psi(x_1, x_2, x_3)$
 
 \section{d-separation}
 
 \textit{(a)}
-\\We saw this definition in class : A and B are d-separated by S if all chains from $a \in A$ to $b \in B$ (in the symmetrized graph) are blocked at least at one node in S. 
-\\ Here we know that S separates A and B in the moral graph $G_M$, which includes the symmetrized graph. So S also separates A and B in the symmetrized graph. Therefore, A and B are d-separated by S in G.
+\\If $G = (V,E)$, the moralized graph is $G_M = (V,E')$ with $E' = E \cup \left\lbrace (i,j) / \exists k \in V \: s.t. \: i,j \in \pi_k \right\rbrace$
+\\Let's take a chain $(v_1,...,v_N)$ from A to B in $G$. It is also a chain in $G_M$. As S separates A and B in $G_M$, we know that this chain goes through S, which means it exists i such that $v_i \in S$.
+\\We can consider without loss of generality that this i is unique (if the chain goes through consecutive vertices in S we group them in one, and if it goes through several disjoint vertices we can cut it in different subchains with only one vertice in S).
+\\From here, we have two cases :
+\\- $(v_{i-1},v_i,v_{i+1})$ is not a v-structure in $G$. Then we have that $v_i \in S$ blocks the chain.
+\\- $(v_{i-1},v_i,v_{i+1})$ is a v-structure in $G$.
+\\Then $v_{i-1}$ and $v_{i+1}$ are linked in $G_M$ because they are both parent of $v_i$. So the chain $(v_1,...,v_{i-1},v{i+1},...,v_N)$ goes from A to B in $G_M$. Then, this chains goes through S in $G_M$, which is absurd because we made the assumptions that $v_i$ was the unique vertice in S from the chain. \\So $(v_{i-1},v_i,v_{i+1})$ cannot be a v-structure.
+\\
+\\To sum up, every chains from A to B go through S and there is no v-structure on such vertices. So A and B are d-separated by S in $G$.
 \\
 \\\textit{(b)}
-\\Let's go back to the definition.
-\\A and B are d-separated by S means that all chains from $a \in A$ to $b \in B$ are blocked at one node in S.
-\\A and S are d-separated by T means that all chains from $a \in A$ to $s \in S$ are blocked at one node in T.
-\\So all chains from $a \in A$ to $b \in B$ will go through S, and then through T before that.
-\\We have that all chains from $a \in A$ to $b \in B$ are blocked at one node in T. In other terms, A and B are d-separated by T.
+\\No, this is not true. Here is a counterexample :
+
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+	
+\node[main node] (1) {};
+\node[main node] (2) [below right of=1] {S};
+\node[main node] (3) [above right of=1] {A};
+\node[main node] (4) [right of=3] {};
+\node[main node] (5) [below right of=4] {T};
+\node[main node] (6) [above right of=5] {};
+\node[main node] (7) [right of=6] {B};
+	
+\path[every node/.style={font=\sffamily\small}]
+(1) edge node {} (2)
+edge node {} (3)
+(3) edge node {} (4)
+(4) edge node {} (5)
+(6) edge node {} (5)
+edge node {} (7);
+	
+	\end{tikzpicture}
+\end{center}
+S separates A and B as the only chain that goes from A to B contains a v-structure on T which is not in S.
+\\T separates A and S as the only chain that goes from A to B contains a v-structure on a vertice which is not in T.
+\\But T does not separates A and B, because the only chain that goes from A to B contains a v-structure on T.
 \\
 \\\textit{(c)}
-\\- $X_{\left\lbrace 1,2 \right\rbrace} \indep X_4 | X_3$ : False
-%not sure and can't really tell why
+\\ We know that if A and B are d-separated by S, then $X_A \indep X_B | X_C$.
+\\- $X_{\left\lbrace 1,2 \right\rbrace} \indep X_4 | X_3$ : True.
+\\3 separates $\left\lbrace 1,2 \right\rbrace$ and 4 because the chains from $\left\lbrace 1,2 \right\rbrace$ to 4 have a v-structure on 8 which is not an ancestor of 3.
 \\
-\\- $X_{\left\lbrace 1,2 \right\rbrace} \indep X_4 | X_5$ : False
-%idem
+\\- $X_{\left\lbrace 1,2 \right\rbrace} \indep X_4 | X_5$ : False, because 5 is a descendant of 8 where we have a v-structure.
 \\
 \\$X_1 \indep X_6 | X_{\left\lbrace 2,4,7 \right\rbrace}$ : True
-\\Indeed, as $X_{\pi_6} = X_7$ we have $X_6 | X_{\left\lbrace 2,4,7 \right\rbrace} = X_6 \indep X_7$, and we are in the scheme of a Markov chain.
+\\All chain from 1 to 6 go through 7 with no v-structure.
 
 \end{document}
