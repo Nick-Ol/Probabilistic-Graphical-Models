@@ -10,9 +10,10 @@ KMeans = function(tab, K)
   n = nrow(tab)
   initIndices = sample(1:n, K) #take K random centroids
   centroids = tab[initIndices,] #initialize the centroids
-  centroids_prev = centroids
   clusters = rep(0, n) #will contain the cluster associated to the i-th X
+  distortions = c(0) #vector with distortion after each iteration
   d = rep(0,K)
+  iter =1
   
   repeat
   {
@@ -33,21 +34,34 @@ KMeans = function(tab, K)
       centroids[k,] = colSums(tab[in_cluster_k,])/length(in_cluster_k)
     }
     
+    distortions[iter+1] = 0
+    for (i in 1:n)
+    {
+      distortions[iter+1] = distortions[iter+1] + norm(tab[i,]-centroids[clusters[i],])
+    }
+    
     #break when the centroids don't change anymore
-    if (max(norm(centroids-centroids_prev)) < .001)
+    if (abs(distortions[iter+1]-distortions[iter]) < .1)
     {
       break
     }
+
+  iter = iter + 1
     
-    centroids_prev = centroids
   }
   
+  x11()
+  par(mfrow=c(2,1))
   plot(tab, col = ifelse(clusters == 1, "red",
                          ifelse(clusters == 2, "blue",
                                 ifelse(clusters == 3, "green",
                                        ifelse(clusters == 4, "yellow", "black")))),
        pch=16,cex=0.5)
   points(centroids, pch=13, cex =2)
+  
+  plot(distortions)
+  
+  return(list(centroids=centroids, distortions=distortions))
 }
 
-KMeans(tab,4)
+kmeans = KMeans(tab,4)
