@@ -1,4 +1,6 @@
 library("mixtools")
+library("mvtnorm")
+#install.packages("mvtnorm")
 
 #Importing other .R files in the directory
 source("KMeans.R")
@@ -13,13 +15,12 @@ n = length(dat)/2 #TODO fix this
 
 gaussianMixtureEM = function(k, initCentr) #k is the number of gaussians in the mixture
 {
-  p = list() #p[i] = P(Y=i)
+  p = c() #p[i] = P(Y=i)
   mu = list() #means for the k gaussians
   var = list() #std dev for the k gaussians
   eta = matrix(nrow=n, ncol=k) #responsabilities for each point (n rows), and every gaussian (k col)
   
   set.seed(1) #seeding for debugging
-  randomIndices = sample(1:n, k)
   for (i in 1:k)
   {
     #initializing with arbitrary values
@@ -35,7 +36,7 @@ gaussianMixtureEM = function(k, initCentr) #k is the number of gaussians in the 
     #E step
     for (i in 1:k)
     {
-      eta[,i]=p[i]*dnorm(dat, mean=mu[i], sd=sigma[i]) #normalization will come after
+      eta[,i]=p[i]*dmvnorm(dat, mean=mu[[i]], sigma=var[[i]]) #normalization will come after
     }
     
     #normalizing responsabilities (sum over one line (= one point x) must be 1)
@@ -54,9 +55,10 @@ gaussianMixtureEM = function(k, initCentr) #k is the number of gaussians in the 
     for (i in 1:k)
     {
       #new means:
-      mu[i]=sum(eta[,i]*dat)/sum(eta[,i])
+      mu[[i]]=colSums(eta[,i]*dat)/sum(eta[,i]) #colSums
       #new deviations:
-      sigma[i]=sqrt(sum(eta[,i]*(dat-mu[i])^2)/sum(eta[,i]))
+      #TODO
+      #sigma[i]=sqrt(sum(eta[,i]*(dat-mu[i])^2)/sum(eta[,i]))
     }
     logLike_old = logLike_new #the value at the previous step
     logLike_new = 0
