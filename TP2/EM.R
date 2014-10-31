@@ -1,4 +1,15 @@
 library("mixtools")
+
+#Importing other .R files in the directory
+getwd()
+source("KMeans.R")
+#pathnames <- list.files(pattern="[.]R$", path=getwd(), full.names=TRUE);
+#sapply(pathnames, FUN=source);
+test = KMeans(dat, 4)
+
+
+
+
 dat = as.matrix(read.table("Data/EMGaussian.data", header=F, sep=' '))
 n = length(dat)
 
