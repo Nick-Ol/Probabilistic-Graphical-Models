@@ -6,12 +6,14 @@ source("KMeans.R")
 
 gaussianMixtureEM = function(dat, k, initCentr, diagonalVariance) #k is the number of gaussians in the mixture
 {
+  colors = c("blue", "green", "brown", "red")
+  plot(dat)
   n = nrow(dat)
   clusters = rep(0,n)
   p = c() #p[i] = P(Y=i)
   mu = list() #means for the k gaussians
-  var = list() #std dev for the k gaussians
-  eta = matrix(nrow=n, ncol=k) #responsabilities for each point (n rows), and every gaussian (k col)
+  variance = list() #std dev for the k gaussians
+  eta = matrix(nrow=n, ncol=k) #responsabilities for each point (n rows), and every gaussian (k col)  
   
   set.seed(1) #seeding for debugging
   for (i in 1:k)
@@ -19,17 +21,18 @@ gaussianMixtureEM = function(dat, k, initCentr, diagonalVariance) #k is the numb
     #initializing with arbitrary values
     p[i]=1/k
     mu[[i]]=as.matrix(initCentr[i, ])
-    var[[i]]=var(sqrt(dat$V1^2 + dat$V2^2)) * diag(2)                    
+    variance[[i]]=var(sqrt(dat$V1^2 + dat$V2^2)) * diag(2)                    
   }
-  iterations = 0
   logLike_new=0
-  #what follows is a R version of do while loop
-  repeat
+  
+  
+  
+  for (iterations in 1:1002)
   {
     #E step
     for (i in 1:k)
     {
-      eta[,i]=p[i]*dmvnorm(dat, mean=mu[[i]], sigma=var[[i]]) #normalization will come after
+      eta[,i]=p[i]*dmvnorm(dat, mean=mu[[i]], sigma=variance[[i]]) #normalization will come after
     }
     
     #normalizing responsabilities (sum over one line (= one point x) must be 1)
@@ -52,32 +55,34 @@ gaussianMixtureEM = function(dat, k, initCentr, diagonalVariance) #k is the numb
       in_cluster_i = which(clusters == i)
       #new means:
       mu[[i]]=colSums(dat[in_cluster_i, ])/length(in_cluster_i) #colSums
-
+      browser()
+      points(x= mu[[i]][1], y = mu[[i]][2], col = colors[i], cex =1, lwd = 7)
+      text(mu[[i]], labels = iterations)
+      
       #new covariances
       if (diagonalVariance) #if we impose that var be diagonal
       {
-        var[[i]]= var(sqrt(dat[in_cluster_i, ]$V1^2 + dat[in_cluster_i, ]$V2^2)) * diag(2) 
+        variance[[i]]= var(sqrt(dat[in_cluster_i, ]$V1^2 + dat[in_cluster_i, ]$V2^2)) * diag(2) 
       }
       else
       {
-        var[[i]]=var(dat[in_cluster_i, ]) 
+        variance[[i]]=var(dat[in_cluster_i, ]) 
       }
     }
     logLike_old = logLike_new #the value at the previous step
     logLike_new = 0
     for (i in 1:k)
     {
-      logLike_new = logLike_new + sum(log(p[i]*dmvnorm(dat, mean=mu[[i]], sigma=var[[i]])))
+      in_cluster_i = which(clusters == i)
+      logLike_new = logLike_new + sum(log(p[i]*dmvnorm(dat[in_cluster_i, ], mean=mu[[i]], sigma=variance[[i]])))
     }
     
-    iterations=iterations+1
-
-    #stopping when relative improvment of LLH is less than 10^-4 %
-    #or more than 1000 iterations (something might have gone wrong)
+    print(iterations)
+    #stopping when relative improvment of LLH is less than 10^-4 % or more than 1000 iterations (something might have gone wrong)
     if(iterations>1000 || abs((logLike_new-logLike_old)/logLike_new) <0.000001)         
     {
       break
     }  
   }
-  return (list("p"=p, "mu"=mu, "sigma"=var, "iterations"=iterations))
+  return (list("p"=p, "mu"=mu, "sigma"=variance, "iterations"=iterations))
 }
