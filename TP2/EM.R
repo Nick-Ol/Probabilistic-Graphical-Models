@@ -12,7 +12,7 @@ initCentr = matrix(nrow = 4, ncol = 2, c(5, 0, 7, - 7, -2.85 , - 4.25, 5, 3.97))
 gaussianMixtureEM = function(dat, k, initCentr, diagonalVariance) #k is the number of gaussians in the mixture
 {
   n = nrow(dat)
-  clusters = rep(0,500)
+  clusters = rep(0,n)
   p = c() #p[i] = P(Y=i)
   mu = list() #means for the k gaussians
   var = list() #std dev for the k gaussians
@@ -63,7 +63,7 @@ gaussianMixtureEM = function(dat, k, initCentr, diagonalVariance) #k is the numb
       {
         var[[i]]= var(sqrt(dat[in_cluster_i, ]$V1^2 + dat[in_cluster_i, ]$V2^2)) * diag(2) 
       }
-      else(F)
+      else
       {
         var[[i]]=var(dat[in_cluster_i, ]) 
       }
