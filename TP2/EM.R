@@ -9,7 +9,7 @@ dat = read.table("Data/EMGaussian.data", header=F, sep=' ')
 #init = KMeans(dat, 4)
 initCentr = matrix(nrow = 4, ncol = 2, c(5, 0, 7, - 7, -2.85 , - 4.25, 5, 3.97))
 
-gaussianMixtureEM = function(dat, k, initCentr) #k is the number of gaussians in the mixture
+gaussianMixtureEM = function(dat, k, initCentr, diagonalVariance) #k is the number of gaussians in the mixture
 {
   n = nrow(dat)
   clusters = rep(0,500)
@@ -57,8 +57,16 @@ gaussianMixtureEM = function(dat, k, initCentr) #k is the number of gaussians in
       in_cluster_i = which(clusters == i)
       #new means:
       mu[[i]]=colSums(dat[in_cluster_i, ])/length(in_cluster_i) #colSums
-      #new covariances for any covariances:
-      var[[i]]=var(dat[in_cluster_i, ]) 
+
+      #new covariances
+      if (diagonalVariance) #if we impose that var be diagonal
+      {
+        var[[i]]= var(sqrt(dat[in_cluster_i, ]$V1^2 + dat[in_cluster_i, ]$V2^2)) * diag(2) 
+      }
+      else(F)
+      {
+        var[[i]]=var(dat[in_cluster_i, ]) 
+      }
     }
     logLike_old = logLike_new #the value at the previous step
     logLike_new = 0
@@ -79,11 +87,11 @@ gaussianMixtureEM = function(dat, k, initCentr) #k is the number of gaussians in
   return (list("p"=p, "mu"=mu, "sigma"=var, "iterations"=iterations))
 }
 
-result = gaussianMixtureEM(dat, 4, initCentr)
+# result = gaussianMixtureEM(dat, 4, initCentr)
 
-plot(dat)
-for (center in result$mu)
-{
-  points(center[1], center[2], col = 'blue', lwd = 10)
-}
+# plot(dat)
+# for (center in result$mu)
+# {
+#   points(center[1], center[2], col = 'blue', lwd = 10)
+# }
 
