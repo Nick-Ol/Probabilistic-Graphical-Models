@@ -3,7 +3,7 @@ library("mixtools")
 #Importing other .R files in the directory
 source("KMeans.R")
 
-dat = as.matrix(read.table("Data/EMGaussian.data", header=F, sep=' '))
+dat = read.table("Data/EMGaussian.data", header=F, sep=' ')
 init = KMeans(dat, 4)
 initCentr = init$centroids
 
@@ -11,11 +11,11 @@ initCentr = init$centroids
 
 n = length(dat)/2 #TODO fix this
 
-gaussianMixtureEM = function(k) #k is the number of gaussians in the mixture
+gaussianMixtureEM = function(k, initCentr) #k is the number of gaussians in the mixture
 {
-  p = c() #p[i] = P(Y=i)
-  mu = c() #means for the k gaussians
-  sigma = c() #std dev for the k gaussians
+  p = list() #p[i] = P(Y=i)
+  mu = list() #means for the k gaussians
+  var = list() #std dev for the k gaussians
   eta = matrix(nrow=n, ncol=k) #responsabilities for each point (n rows), and every gaussian (k col)
   
   set.seed(1) #seeding for debugging
@@ -24,8 +24,8 @@ gaussianMixtureEM = function(k) #k is the number of gaussians in the mixture
   {
     #initializing with arbitrary values
     p[i]=1/k
-    mu[i]=dat[randomIndices[i]] 
-    sigma[i]=sqrt(var(dat))                    
+    mu[[i]]=initCentr[i, ] 
+    var[[i]]=var(sqrt(dat$V1^2 + dat$V2^2)) * diag(2)                    
   }
   iterations = 0
   logLike_new=0
