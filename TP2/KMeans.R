@@ -64,4 +64,4 @@ KMeans = function(tab, K)
   return(list(centroids=centroids, distortions=distortions))
 }
 
-kmeans = KMeans(tab,4)
+#kmeans = KMeans(tab,4)
