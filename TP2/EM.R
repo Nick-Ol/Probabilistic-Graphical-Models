@@ -2,12 +2,7 @@ library("mixtools")
 library("mvtnorm")
 #install.packages("mvtnorm")
 
-#Importing other .R files in the directory
 source("KMeans.R")
-
-dat = read.table("Data/EMGaussian.data", header=F, sep=' ')
-#init = KMeans(dat, 4)
-initCentr = matrix(nrow = 4, ncol = 2, c(5, 0, 7, - 7, -2.85 , - 4.25, 5, 3.97))
 
 gaussianMixtureEM = function(dat, k, initCentr, diagonalVariance) #k is the number of gaussians in the mixture
 {
@@ -86,12 +81,3 @@ gaussianMixtureEM = function(dat, k, initCentr, diagonalVariance) #k is the numb
   }
   return (list("p"=p, "mu"=mu, "sigma"=var, "iterations"=iterations))
 }
-
-# result = gaussianMixtureEM(dat, 4, initCentr)
-
-# plot(dat)
-# for (center in result$mu)
-# {
-#   points(center[1], center[2], col = 'blue', lwd = 10)
-# }
-

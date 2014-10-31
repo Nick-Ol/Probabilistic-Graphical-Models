@@ -1,5 +1,4 @@
-library(mvtnorm) # References rmvnorm()
-plot(dat)
+library(mvtnorm)
 
 source("EM.R")
 
@@ -24,5 +23,3 @@ plotDataEllipsis = function(dat, k, initCentr, levels, diagonalVariance){
     contour(x,y,matrix(z,numberPoints,numberPoints), levels=levels, col = terrain.colors(10), add=TRUE)
   }
 }
-
-plotDataEllipsis(dat, 4, initCentr, (1:9), T)
