@@ -5,9 +5,10 @@ norm = function(X)
   return (sqrt(X[1]^2+X[2]^2))
 }
 
-KMeans = function(tab, K)
+KMeans = function(tab, K, seed)
 {
   n = nrow(tab)
+  set.seed(seed)
   initIndices = sample(1:n, K) #take K random centroids
   centroids = tab[initIndices,] #initialize the centroids
   clusters = rep(0, n) #will contain the cluster associated to the i-th X

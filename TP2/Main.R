@@ -9,7 +9,7 @@ levels = (1:9) #which level lines do you want to be plotted?
 ##
 
 
-init = KMeans(dat, K)
+init = KMeans(dat, K, 1)
 initCentr = init$centroids
 par(mfrow=c(1,1))
 plotDataEllipsis(dat, K, initCentr, levels, T)
