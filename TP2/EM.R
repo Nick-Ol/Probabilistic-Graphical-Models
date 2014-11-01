@@ -7,7 +7,6 @@ source("KMeans.R")
 gaussianMixtureEM = function(dat, k, initCentr, diagonalVariance) #k is the number of gaussians in the mixture
 {
   colors = c("blue", "green", "brown", "red")
-  plot(dat)
   n = nrow(dat)
   clusters = rep(0,n)
   p = c() #p[i] = P(Y=i)
@@ -83,5 +82,11 @@ gaussianMixtureEM = function(dat, k, initCentr, diagonalVariance) #k is the numb
       break
     }  
   }
+  
+  plot(tab, col = ifelse(clusters == 1, "red",
+                         ifelse(clusters == 2, "blue",
+                                ifelse(clusters == 3, "green",
+                                       ifelse(clusters == 4, "orange", "black")))),
+       pch=16,cex=0.5, asp=1)
   return (list("p"=p, "mu"=mu, "sigma"=variance, "iterations"=iterations))
 }

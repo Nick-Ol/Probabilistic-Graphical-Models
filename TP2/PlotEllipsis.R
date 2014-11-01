@@ -4,7 +4,8 @@ source("EM.R")
 
 plotDataEllipsis = function(dat, k, initCentr, levels, diagonalVariance){
   result = gaussianMixtureEM(dat, k, initCentr, diagonalVariance)
-  plot(dat, asp= 1)#, xlim=c(-20,20))
+  #plotting is done in guassianMixture. This is bad.
+  #plot(dat, asp= 1)#, xlim=c(-20,20))
   n = 20
   x <- seq(-17, 17, 1/n)
   y <- seq(-17, 17, 1/n)
@@ -13,7 +14,7 @@ plotDataEllipsis = function(dat, k, initCentr, levels, diagonalVariance){
   {
     center = result$mu[[i]]
     sigma = as.matrix(result$sigma[[i]])
-    points(center[1], center[2], lwd = 2, pch=13, cex =2, col = 'red')
+    points(center[1], center[2], lwd = 2, pch=13, cex =2, col = 'black')
     sigma.inv = solve(sigma, matrix(c(1,0,0,1),2,2))
       
     ellipse <- function(s,t) {u<-c(s,t)-center; u %*% sigma.inv %*% u / 2}
