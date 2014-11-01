@@ -55,7 +55,6 @@ gaussianMixtureEM = function(dat, k, initCentr, diagonalVariance) #k is the numb
       in_cluster_i = which(clusters == i)
       #new means:
       mu[[i]]=colSums(dat[in_cluster_i, ])/length(in_cluster_i) #colSums
-      browser()
       points(x= mu[[i]][1], y = mu[[i]][2], col = colors[i], cex =1, lwd = 7)
       text(mu[[i]], labels = iterations)
       
