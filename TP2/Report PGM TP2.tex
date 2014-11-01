@@ -32,7 +32,7 @@
 
 \section{Distributions factorizing in a graph}
 
-\textit{(a)}
+\hspace*{-6mm}\textit{(a)}
 \\i. This is a covered edge, for example :
 \\
 \begin{center}
@@ -53,7 +53,7 @@ thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
 
 \end{tikzpicture}
 \end{center}
-
+%
 The parents of the node $j$ are $\left\lbrace  i + parents\:of\:i \right\rbrace$. We now reverse $i \rightarrow j$. Let show that $\mathcal{L}(G) = \mathcal{L}(G')$
 \\
 \\
@@ -103,8 +103,9 @@ thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
 So the symmetrized graph is composed of only one maximal clique, but we have $p(x) = p(x_1) \times p(x_2 | x_1) \times p(x_3 | x_1, x_2)$, which cannot be written as $\psi(x_1, x_2, x_3)$
 
 \section{d-separation}
-
-\textit{(a)}
+%
+%
+\hspace*{-6mm}\textit{(a)}
 \\If $G = (V,E)$, the moralized graph is $G_M = (V,E')$ with $E' = E \cup \left\lbrace (i,j) / \exists k \in V \: s.t. \: i,j \in \pi_k \right\rbrace$
 \\Let's take a chain $(v_1,...,v_N)$ from A to B in $G$. It is also a chain in $G_M$. As S separates A and B in $G_M$, we know that this chain goes through S, which means it exists i such that $v_i \in S$.
 \\We can consider without loss of generality that this i is unique (if the chain goes through consecutive vertices in S we group them in one, and if it goes through several disjoint vertices we can cut it in different subchains with only one vertice in S).
@@ -157,6 +158,13 @@ S separates A and B as the only chain that goes from A to B contains a v-structu
 \section{Implementation of K Means and Gaussian mixture}
 %
 %
+\begin{figure}[H]
+\centering
+\noindent\includegraphics[scale=0.6]{kmean_pourri.png}
+\caption{Clusters and centroids obtained by K-Means}
+\end{figure}
+%
+%TODO: compare centroids and distorsions
 (b)
 \begin{figure}[H]
 \centering
@@ -173,4 +181,7 @@ As we forced the variances to be proportional to $I_2$, we get that level sets a
 \caption{Data set and 4 gaussians with their level sets (ellipsis), from 10\% to 90\%}
 \end{figure}
 Since no assumption is made on the 4 variances, the level sets are now ellipsis, whose axis are not necessarily parallel to $(Ox)$ and $(Oy)$ respectively. Had we imposed that the variances should be diagonal, we would have obtained ellipsis with axis 
+%
+%TODO question d
+(d)
 \end{document}
