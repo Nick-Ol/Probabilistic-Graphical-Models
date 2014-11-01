@@ -154,4 +154,23 @@ S separates A and B as the only chain that goes from A to B contains a v-structu
 \\$X_1 \indep X_6 | X_{\left\lbrace 2,4,7 \right\rbrace}$ : True
 \\All chain from 1 to 6 go through 7 with no v-structure.
 
+\section{Implementation of K Means and Gaussian mixture}
+%
+%
+(b)
+\begin{figure}[H]
+\centering
+\noindent\includegraphics[scale=0.6]{circles.png}
+\caption{Data set and 4 gaussians with their level sets (circles), from 10\% to 90\%}
+\end{figure}
+As we forced the variances to be proportional to $I_2$, we get that level sets are circles, because we have $(x-\mu)^T \Sigma^{-1} (x- \mu) = \frac{1}{\sigma^2} \Vert x - \mu \Vert ^2$.
+%
+%
+(c)
+\begin{figure}[H]
+\centering
+\noindent\includegraphics[scale=0.6]{ellipsis.png}
+\caption{Data set and 4 gaussians with their level sets (ellipsis), from 10\% to 90\%}
+\end{figure}
+Since no assumption is made on the 4 variances, the level sets are now ellipsis, whose axis are not necessarily parallel to $(Ox)$ and $(Oy)$ respectively. Had we imposed that the variances should be diagonal, we would have obtained ellipsis with axis 
 \end{document}
