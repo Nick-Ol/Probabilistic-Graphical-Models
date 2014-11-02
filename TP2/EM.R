@@ -88,5 +88,9 @@ gaussianMixtureEM = function(dat, k, initCentr, diagonalVariance) #k is the numb
                                 ifelse(clusters == 3, "green",
                                        ifelse(clusters == 4, "orange", "black")))),
        pch=16,cex=0.5, asp=1)
+<<<<<<< HEAD
   return (list("p"=p, "mu"=mu, "sigma"=variance, "iterations"=iterations, "llh" = logLike_new))
+=======
+  return (list("p"=p, "mu"=mu, "sigma"=variance, "iterations"=iterations, "loglike"=logLike_new))
+>>>>>>> FETCH_HEAD
 }
