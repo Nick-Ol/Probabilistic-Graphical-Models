@@ -11,10 +11,16 @@ levels = (1:9) #which level lines do you want to be plotted?
 
 init = KMeans(dat, K, 1)
 initCentr = init$centroids
-par(mfrow=c(1,1))
-plotDataEllipsis(dat, K, initCentr, levels, T)
-plotDataEllipsis(dat, K, initCentr, levels, F)
+resultsEMDiag = gaussianMixtureEM(dat, K, initCentr, T)
+resultsEMNotDiag = gaussianMixtureEM(dat, K, initCentr, F)
 
+par(mfrow=c(1,1))
+plotDataEllipsis(dat, resultsEMDiag)
+plotDataEllipsis(dat, resultsEMNotdiag)
+
+datTest = read.table("Data/EMGaussian.test", header=F, sep=' ')
+cat('llh sur le dataset Test avec covariances diagonales = ', EMllh(datTest, resultsEMDiag) ,'\n')
+cat('llh sur le dataset Test avec covariances generales = ', EMllh(datTest, resultsEMNotDiag) ,'\n')
 
 
 
