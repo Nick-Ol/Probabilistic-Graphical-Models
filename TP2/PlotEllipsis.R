@@ -2,9 +2,9 @@ library(mvtnorm)
 
 source("EM.R")
 
-plotDataEllipsis = function(dat, k, initCentr, levels, diagonalVariance){
-  result = gaussianMixtureEM(dat, k, initCentr, diagonalVariance)
+plotDataEllipsis = function(dat, result){  
   clusters = result$clusters
+  k = length(result$p)
   
   plot(dat, col = ifelse(clusters == 1, "red",
                          ifelse(clusters == 2, "blue",
@@ -13,8 +13,8 @@ plotDataEllipsis = function(dat, k, initCentr, levels, diagonalVariance){
        pch=16,cex=0.5, asp=1)
 
   n = 20
-  x <- seq(min(dat[,1])-5, max(dat[,1])+5, 1/n)
-  y <- seq(min(dat[,2])-5, max(dat[,2])+5, 1/n)
+  x <- seq(-17, 17, 1/n)
+  y <- seq(-17, 17, 1/n)
   
   for (i in 1:k)
   {
