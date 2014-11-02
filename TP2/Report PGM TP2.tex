@@ -195,5 +195,8 @@ Since no assumption is made on the 4 variances, the level sets are now ellipsis,
 \\[5mm]
 \textit{(d)} 
 When we impose the variances to be diagonal, on the training set we get a final log-likelihood of approx - 2700. When we relax this constraint, we get a final llh  of approx -2350 : relaxing constrains allows the model to better fit the data.
-%TODO llh on the test set.
+\\
+\\
+On test data, we obtain a log-likelihood of approx -2650 with the Gaussian Mixtures model trained with diagonal variances. As the test dataset has the same size as the training one, we see here that the test dataset better fits to the model that the train set itself. 
+\\With the general Gaussian Mixtures model trained (no assumption made on covariance matrix), we obtain a llh of approx -2420. It is in the same range than for train data.
 \end{document}
