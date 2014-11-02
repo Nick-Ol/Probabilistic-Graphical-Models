@@ -4,8 +4,14 @@ source("EM.R")
 
 plotDataEllipsis = function(dat, k, initCentr, levels, diagonalVariance){
   result = gaussianMixtureEM(dat, k, initCentr, diagonalVariance)
-  #plotting is done in guassianMixture. This is bad.
-  #plot(dat, asp= 1)#, xlim=c(-20,20))
+  clusters = result$clusters
+  
+  plot(dat, col = ifelse(clusters == 1, "red",
+                         ifelse(clusters == 2, "blue",
+                                ifelse(clusters == 3, "green",
+                                       ifelse(clusters == 4, "orange", "black")))),
+       pch=16,cex=0.5, asp=1)
+
   n = 20
   x <- seq(-17, 17, 1/n)
   y <- seq(-17, 17, 1/n)

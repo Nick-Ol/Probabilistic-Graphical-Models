@@ -51,8 +51,6 @@ KMeans = function(tab, K, seed)
     
   }
   
-#   x11()
-#  par(mfrow=c(2,1))
   plot(tab, col = ifelse(clusters == 1, "red",
                          ifelse(clusters == 2, "blue",
                                 ifelse(clusters == 3, "green",
@@ -62,5 +60,5 @@ KMeans = function(tab, K, seed)
   
   plot(distortions)
   
-  return(list(centroids=centroids, distortions=distortions))
+  return(list(centroids=centroids, clusters =clusters, distortions=distortions))
 }
