@@ -158,13 +158,21 @@ S separates A and B as the only chain that goes from A to B contains a v-structu
 \section{Implementation of K Means and Gaussian mixture}
 %
 %
+Running our algorithm with a different seed each time, we see that it can converge to different results, some of them quite bad (seed=44 give a distorsion of 1500, whereas usually distorsion is around 1100).
 \begin{figure}[H]
 \centering
-\noindent\includegraphics[scale=0.6]{kmean_pourri.png}
-\caption{Clusters and centroids obtained by K-Means}
+\noindent\includegraphics[scale=0.5]{kmeans_pourri.png}
+\caption{Clusters and centroids obtained by K-Means for seed = 44}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\noindent\includegraphics[scale=0.5]{kmeans_good.png}
+\caption{Clusters and centroids obtained by K-Means for seed = 45}
 \end{figure}
 %
 %TODO: compare centroids and distorsions
+%
 (b)
 \begin{figure}[H]
 \centering
@@ -174,7 +182,7 @@ S separates A and B as the only chain that goes from A to B contains a v-structu
 As we forced the variances to be proportional to $I_2$, we get that level sets are circles, because we have $(x-\mu)^T \Sigma^{-1} (x- \mu) = \frac{1}{\sigma^2} \Vert x - \mu \Vert ^2$.
 %
 %
-(c)
+\\[5mm](c)
 \begin{figure}[H]
 \centering
 \noindent\includegraphics[scale=0.6]{ellipsis.png}
