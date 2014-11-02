@@ -13,8 +13,8 @@ plotDataEllipsis = function(dat, k, initCentr, levels, diagonalVariance){
        pch=16,cex=0.5, asp=1)
 
   n = 20
-  x <- seq(-17, 17, 1/n)
-  y <- seq(-17, 17, 1/n)
+  x <- seq(min(dat[,1])-5, max(dat[,1])+5, 1/n)
+  y <- seq(min(dat[,2])-5, max(dat[,2])+5, 1/n)
   
   for (i in 1:k)
   {
