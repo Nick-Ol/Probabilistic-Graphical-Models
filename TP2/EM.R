@@ -84,5 +84,4 @@ gaussianMixtureEM = function(dat, k, initCentr, diagonalVariance) #k is the numb
   }
   
   return (list("p"=p, "mu"=mu, "sigma"=variance, "iterations"=iterations, "loglike"=logLike_new, "clusters"=clusters))
-
 }
