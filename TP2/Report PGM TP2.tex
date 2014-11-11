@@ -160,17 +160,19 @@ S separates A and B as the only chain that goes from A to B contains a v-structu
 %
 \textit{(a)}
 Running our algorithm with a different seed each time, we see that it can converge to different results, some of them quite bad (seed=44 gives a distorsion of 1500, whereas usually distorsion is around 1100).
+\\We see the sensibility of KMeans with respect to initialization : the algorithm can get stuck at a local minimum. However most of the time the alglorithm converge to an acceptable solution (distortion around 1100).
+\\We also notice that, even in the "good case" (i.e. low distorsion), the algorithm puts the upper right extremity of the "long cluster"  (blue in figure 2) into another cluster (green in figure 2), to whom they don't seem to belong, because there's a gap between them and the other points of the green cluster. This problem will no longer be present with EM.
 \begin{figure}[H]
 \centering
-\noindent\includegraphics[scale=0.5]{kmeans_pourri.png}
-\noindent\includegraphics[scale=0.5]{distortion_seed44.png}
+\noindent\includegraphics[scale=0.4]{kmeans_pourri.png}
+\noindent\includegraphics[scale=0.4]{distortion_seed44.png}
 \caption{Clusters and centroids obtained by K-Means for seed = 44, and distortion measure at each iteration (starting arbitrarily to 0)}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\noindent\includegraphics[scale=0.5]{kmeans_good.png}
-\noindent\includegraphics[scale=0.5]{distortion_seed45.png}
+\noindent\includegraphics[scale=0.4]{kmeans_good.png}
+\noindent\includegraphics[scale=0.4]{distortion_seed45.png}
 \caption{Clusters and centroids obtained by K-Means for seed = 45, and distortion measure at each iteration (starting arbitrarily to 0)}
 \end{figure}
 
@@ -181,6 +183,7 @@ Running our algorithm with a different seed each time, we see that it can conver
 \caption{Data set and 4 gaussians with their level sets (circles), from 10\% to 90\%}
 \end{figure}
 As we forced the variances to be proportional to $I_2$, we get that level sets are circles, because we have $(x-\mu)^T \Sigma^{-1} (x- \mu) = \frac{1}{\sigma^2} \Vert x - \mu \Vert ^2$.
+\\Instead of updating the respective variances with the empirical covariance matrices of each cluster, for each cluster at each step we take the covariance matrix equal to $V_i I_2$ where $V_i$ is the variance of the distances of the points belonging to this cluster, to the mean of the cluster. $V_i =$var($ \Vert x - \mu_i \Vert$) for $x$ in cluster i.
 %
 %
 \\[5mm]\textit{(c)}
@@ -190,8 +193,8 @@ As we forced the variances to be proportional to $I_2$, we get that level sets a
 \caption{Data set and 4 gaussians with their level sets (ellipsis), from 10\% to 90\%}
 \end{figure}
 Since no assumption is made on the 4 variances, the level sets are now ellipsis, whose axis are not necessarily parallel to $(Ox)$ and $(Oy)$ respectively. Had we imposed that the variances should be diagonal, we would have obtained ellipsis with such axis.
+\\We see a much better fit, especially for the long, diagonal cluster (blue). The "covariance proportional to identity" hypothesis seems to have been reasonable only for one cluster, the yellow one.
 %
-%TODO question d
 \\[5mm]
 \textit{(d)} 
 When we impose the variances to be diagonal, on the training set we get a final log-likelihood of approx - 2700. When we relax this constraint, we get a final llh  of approx -2350 : relaxing constrains allows the model to better fit the data.
@@ -199,4 +202,5 @@ When we impose the variances to be diagonal, on the training set we get a final 
 \\
 On test data, we obtain a log-likelihood of approx -2650 with the Gaussian Mixtures model trained with diagonal variances. As the test dataset has the same size as the training one, we see here that the test dataset better fits to the model that the train set itself. 
 \\With the general Gaussian Mixtures model trained (no assumption made on covariance matrix), we obtain a llh of approx -2420. It is in the same range than for train data.
+\\The risk of overfitting is higher for the general covariance matrices model, because it is more "flexible" (more degrees of freedom)
 \end{document}
