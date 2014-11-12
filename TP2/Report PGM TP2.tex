@@ -32,7 +32,7 @@
 
 \section{Distributions factorizing in a graph}
 
-\hspace*{-6mm}\textit{(a)}
+\hspace*{-6mm}\textbf{(a)}
 \\i. This is a covered edge, for example :
 \\
 \begin{center}
@@ -80,7 +80,7 @@ As there is no v-structures in $G$, it means that the cliques of $G'$ are only c
 So $\mathcal{L}(G) = \mathcal{L}(G')$
 \\
 \\
-\textit{(b)}
+\textbf{(b)}
 \\According to (a)ii., if the number of nodes is 1 or 2 we have no v-structures so $\mathcal{L}(G) = \mathcal{L}(G')$.
 For 3 nodes, let oblige to have a v-structure in the directed graph. If we choose an undirected graph where the three nodes are linked, we will compulsorily have a v-structure, as below :
 
@@ -128,7 +128,7 @@ We now have $p(x) = p(x_1) \times p(x_2 | x_1) \times p(x_3 | x_1) \times p(x_4 
 \section{d-separation}
 %
 %
-\hspace*{-6mm}\textit{(a)}
+\hspace*{-6mm}\textbf{(a)}
 \\If $G = (V,E)$, the moralized graph is $G_M = (V,E')$ with $E' = E \cup \left\lbrace (i,j) / \exists k \in V \: s.t. \: i,j \in \pi_k \right\rbrace$
 \\Let's take a chain $(v_1,...,v_N)$ from A to B in $G$. It is also a chain in $G_M$. As S separates A and B in $G_M$, we know that this chain goes through S, which means it exists i such that $v_i \in S$.
 \\We can consider without loss of generality that this i is unique (if the chain goes through consecutive vertices in S we group them in one, and if it goes through several disjoint vertices we can cut it in different subchains with only one vertice in S).
@@ -139,7 +139,7 @@ We now have $p(x) = p(x_1) \times p(x_2 | x_1) \times p(x_3 | x_1) \times p(x_4 
 \\
 \\To sum up, every chains from A to B go through S and there is no v-structure on such vertices. So A and B are d-separated by S in $G$.
 \\
-\\\textit{(b)}
+\\\textbf{(b)}
 \\No, this is not true. Here is a counterexample :
 
 \begin{center}
@@ -168,7 +168,7 @@ S separates A and B as the only chain that goes from A to B contains a v-structu
 \\T separates A and S as the only chain that goes from A to B contains a v-structure on a vertice which is not in T.
 \\But T does not separates A and B, because the only chain that goes from A to B contains a v-structure on T.
 \\
-\\\textit{(c)}
+\\\textbf{(c)}
 \\ We know that if A and B are d-separated by S, then $X_A \indep X_B | X_C$.
 \\- $X_{\left\lbrace 1,2 \right\rbrace} \indep X_4 | X_3$ : True.
 \\3 separates $\left\lbrace 1,2 \right\rbrace$ and 4 because the chains from $\left\lbrace 1,2 \right\rbrace$ to 4 have a v-structure on 8 which is not an ancestor of 3.
@@ -181,7 +181,7 @@ S separates A and B as the only chain that goes from A to B contains a v-structu
 \section{Implementation of K Means and Gaussian mixture}
 %
 %
-\textit{(a)}
+\hspace*{-6mm}\textbf{(a)}
 Running our algorithm with a different seed each time, we see that it can converge to different results, some of them quite bad (seed=44 gives a distorsion of 1500, whereas usually distorsion is around 1100).
 \\We see the sensibility of KMeans with respect to initialization : the algorithm can get stuck at a local minimum. However most of the time the alglorithm converge to an acceptable solution (distortion around 1100).
 \\We also notice that, even in the "good case" (i.e. low distorsion), the algorithm puts the upper right extremity of the "long cluster"  (blue in figure 2) into another cluster (green in figure 2), to whom they don't seem to belong, because there's a gap between them and the other points of the green cluster. This problem will no longer be present with EM.
@@ -198,8 +198,8 @@ Running our algorithm with a different seed each time, we see that it can conver
 \noindent\includegraphics[scale=0.4]{distortion_seed45.png}
 \caption{Clusters and centroids obtained by K-Means for seed = 45, and distortion measure at each iteration (starting arbitrarily to 0)}
 \end{figure}
-
-\textit{(b)}
+%
+\hspace*{-6mm}\textbf{(b)}
 \begin{figure}[H]
 \centering
 \noindent\includegraphics[scale=0.5]{circles.png}
@@ -209,7 +209,7 @@ As we forced the variances to be proportional to $I_2$, we get that level sets a
 \\Instead of updating the respective variances with the empirical covariance matrices of each cluster, for each cluster at each step we take the covariance matrix equal to $V_i I_2$ where $V_i$ is the variance of the distances of the points belonging to this cluster, to the mean of the cluster. $V_i =$var($ \Vert x - \mu_i \Vert$) for $x$ in cluster i.
 %
 %
-\\[5mm]\textit{(c)}
+\\[5mm]\textbf{(c)}
 \begin{figure}[H]
 \centering
 \noindent\includegraphics[scale=0.5]{ellipsis.png}
@@ -219,7 +219,7 @@ Since no assumption is made on the 4 variances, the level sets are now ellipsis,
 \\We see a much better fit, especially for the long, diagonal cluster (blue). The "covariance proportional to identity" hypothesis seems to have been reasonable only for one cluster, the yellow one.
 %
 \\[5mm]
-\textit{(d)} 
+\textbf{(d)} 
 When we impose the variances to be diagonal, on the training set we get a final log-likelihood of approx - 2700. When we relax this constraint, we get a final llh  of approx -2350 : relaxing constrains allows the model to better fit the data.
 \\
 \\
