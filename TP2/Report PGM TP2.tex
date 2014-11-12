@@ -214,6 +214,8 @@ $\begin{pmatrix}
 As we forced the variances to be proportional to $I_2$, we get that level sets are circles, because we have $(x-\mu)^T \Sigma^{-1} (x- \mu) = \frac{1}{\sigma^2} \Vert x - \mu \Vert ^2$.
 \\Instead of updating the respective variances with the empirical covariance matrices of each cluster, for each cluster at each step we take the covariance matrix equal to $V_i I_2$ where $V_i$ is the variance of the distances of the points belonging to this cluster, to the mean of the cluster. $V_i =$var($ \Vert x - \mu_i \Vert$) for $x$ in cluster i.
 %
+\\The circles do not seem to fit the data very well, except for the yellow and (in a lesser way) red clusters.
+%
 \\[5mm]
 \textbf{Detailed results for Figure 3}
 \\- Posterior probabilities (order: yellow, blue, red, green) :
@@ -241,6 +243,49 @@ $\begin{pmatrix}
 \end{figure}
 Since no assumption is made on the 4 variances, the level sets are now ellipsis, whose axis are not necessarily parallel to $(Ox)$ and $(Oy)$ respectively. Had we imposed that the variances should be diagonal, we would have obtained ellipsis with such axis.
 \\We see a much better fit, especially for the long, diagonal cluster (blue). The "covariance proportional to identity" hypothesis seems to have been reasonable only for one cluster, the yellow one.
+%
+\\[5mm]
+\textbf{Detailed results for Figure 4}
+\\\textit{Caution, colors have changed ! Refer to Figure 4}
+\\- Posterior probabilities (order on Figure 4: yellow, blue, red, green) :
+$\begin{pmatrix} 
+0.248 & 0.304 & 0.206 & 0.242\\
+\end{pmatrix}$
+%
+\\- Means (same order) :
+$\begin{pmatrix} 
+-2.09 & -3.11 & 3.79 & 3.98 \\
+4.19 & -3.58 & -3.65 & 4.37 
+\end{pmatrix}$
+%
+\\- Covariances matrices (same order) :
+\\
+$\begin{pmatrix} 
+2.75 & 0.21 \\ 
+0.21 & 2.65
+\end{pmatrix}$
+ ("proportional to identity" hypothesis was valid for this cluster (yellow on Figure 4))
+%
+\\
+$\begin{pmatrix} 
+5.93 & 5.76 \\ 
+5.76 & 5.92
+\end{pmatrix}$
+(the long, blue cluster has a covariance matrix very far from being proportional to identity)
+%
+\\
+$\begin{pmatrix} 
+0.86 & 0.04 \\ 
+0.04 & 2.03
+\end{pmatrix}$
+("almost" diagonal : axis are nearly vertical and horizontal, but the vertical axis is bigger than the horizontal one)
+%
+\\
+$\begin{pmatrix} 
+0.22 & 0.16 \\ 
+0.16 & 9.05
+\end{pmatrix}$
+(same, axis are nearly horizontal and vertical, but the vertical axis is much bigger)
 %
 \\[5mm]
 \textbf{(d)} 
