@@ -211,10 +211,13 @@ $\begin{pmatrix}
 \noindent\includegraphics[scale=0.5]{circles.png}
 \caption{Data set and 4 gaussians with their level sets (circles), from 10\% to 90\%}
 \end{figure}
-As we forced the variances to be proportional to $I_2$, we get that level sets are circles, because we have $(x-\mu)^T \Sigma^{-1} (x- \mu) = \frac{1}{\sigma^2} \Vert x - \mu \Vert ^2$.
-\\Instead of updating the respective variances with the empirical covariance matrices of each cluster, for each cluster at each step we take the covariance matrix equal to $V_i I_2$ where $V_i$ is the variance of the distances of the points belonging to this cluster, to the mean of the cluster. $V_i =$var($ \Vert x - \mu_i \Vert$) for $x$ in cluster i.
+As we forced the variances to be proportional to $I_2$, we get that level sets are circles, because if $\Sigma  = \sigma^2 I_2, \sigma \neq 0$, we have 
 %
-\\The circles do not seem to fit the data very well, except for the yellow and (in a lesser way) red clusters.
+$$(x-\mu)^T \Sigma^{-1} (x- \mu) = \frac{1}{\sigma^2} \Vert x - \mu \Vert ^2$$
+%
+\\Instead of updating the respective variances with the empirical covariance matrices of each cluster, for each cluster $i$ at each iteration we chose to take the covariance matrix equal to $V_i I_2$ where $V_i$ is the variance of the distances of the points belonging to this cluster, to the mean of the cluster. $V_i =$Var($ \Vert x - \mu_i \Vert$) for $x$ belonging to cluster i.
+%
+\\[5mm]The circles do not seem to fit the data very well, except for the yellow and (in a lesser way) red clusters. And even for these, some points are in the blue cluster when they should be in the yellow or red one instead.
 %
 \\[5mm]
 \textbf{Detailed results for Figure 3}
@@ -289,10 +292,17 @@ $\begin{pmatrix}
 %
 \\[5mm]
 \textbf{(d)} 
-When we impose the variances to be diagonal, on the training set we get a final log-likelihood of approx - 2700. When we relax this constraint, we get a final llh  of approx -2350 : relaxing constrains allows the model to better fit the data.
+It is important to notice that the datasets have the same size, otherwise this comparison would make no sense.
+\\The loglikelihood is higher for ellipsis on both datasets : relaxing the "covariance proportional to identity" constraint allows the model to better fit the data.
 \\
+\begin{tabular}{|l|c|c|}
+  \hline
+  & Training set& Test set \\
+  \hline
+  Circles & -2697 & -2650 \\
+  Ellipsis & -2344 & -2423 \\
+  \hline
+\end{tabular}
 \\
-On test data, we obtain a log-likelihood of approx -2650 with the Gaussian Mixtures model trained with diagonal variances. As the test dataset has the same size as the training one, we see here that the test dataset better fits to the model than the train set itself. 
-\\With the general Gaussian Mixtures model trained (no assumption made on covariance matrix), we obtain a llh of approx -2420. It is in the same range than for train data.
-\\The risk of overfitting is higher for the general covariance matrices model, because it is more "flexible" (more degrees of freedom).
+\\We see  no obvious overfitting. However, it is worth noticing that the likelihood increases from Training to Test for circles, whereas it decreases for ellipsis : the general covariance matrices model has more degrees of freedom, therefore it is more likely to overfit.
 \end{document}
