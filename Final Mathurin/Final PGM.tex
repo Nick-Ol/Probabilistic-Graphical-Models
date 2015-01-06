@@ -26,12 +26,12 @@
 $$ \begin{aligned}p(y, w) 
 &= p(y \vert w) * p(w) 
 \\&= \prod\limits_{i=1}^{n} p(y_i \vert w) \prod\limits_{j=1}^{d} p( w_j)  
-\\&=C_1 \prod\limits_{i=1}^{n} exp(- \frac{( y_i - x_i^{\top}w )^2 } {2 \sigma^2}) C_2 \prod\limits_{j=1}^{d} exp(- \frac{w_j^2}{2 \eta_j})
-\\&=C_1 exp(- \frac{\Vert y- X^{\top}w \Vert^2 } {2 \sigma^2}) C_2 exp(-\frac{1}{2} w^{\top} H ^{-1} w)
+\\&=C_1 \prod\limits_{i=1}^{n} exp(- \frac{( y_i - x_i^{\top}w )^2 } {2 \sigma^2}) \times C_2 \prod\limits_{j=1}^{d} exp(- \frac{w_j^2}{2 \eta_j})
+\\&=C_1 exp(- \frac{\Vert y- X^{\top}w \Vert^2 } {2 \sigma^2}) \times C_2 exp(-\frac{1}{2} w^{\top} H ^{-1} w)
 \end{aligned}$$
 where 
 \\- $C_1$ and $C_2$ are normalization factors, equal to $\frac{1}{(2\pi)^{n/2} \sigma^n}$ and $\frac{1}{(2 \pi)^{d/2} \vert H^{-1} \vert^{1/2}}$ respectively.
-\\- $H$ is a diagonal matrix with coefficients $(\eta_1, \ldots, \eta_d)$.
+\\- $H$ is a diagonal matrix with coefficients $(\eta_1, \ldots, \eta_d)$. See 6) for what we do if one
 %
 \\[5mm]Putting $z = \begin{pmatrix} y \\ w \end{pmatrix}$ and $C = C_1C_2$ we have:
 $$p(z) = C exp (-\frac{1}{2\sigma^2} z^{\top} 
@@ -48,18 +48,18 @@ As done in Chapter 13, we can use the Schur complement of $\Lambda$ with respect
 $$\Lambda = 
 \begin{pmatrix}I_n &\Lambda_{12}\Lambda_{22}^{-1} \\ 0  &I_d\end{pmatrix}
 \begin{pmatrix} \Lambda / \Lambda_{22} & 0 \\ 0 &  \Lambda_{22} \end{pmatrix}
-\begin{pmatrix}I_n &0\\ \Lambda_{22}^{-1} \Lambda_{12}  &I_d\end{pmatrix}
+\begin{pmatrix}I_n &0\\ \Lambda_{22}^{-1} \Lambda_{21}  &I_d\end{pmatrix}
 $$
 Hence $$\begin{aligned}p(z) &= C exp (-\frac{1}{2} \begin{pmatrix} y \\ w \end{pmatrix}^{\top} 
 \begin{pmatrix}I_n &\Lambda_{12}\Lambda_{22}^{-1} \\ 0  &I_d\end{pmatrix}
 \begin{pmatrix} \Lambda / \Lambda_{22} & 0 \\ 0 &  \Lambda_{22} \end{pmatrix}
-\begin{pmatrix}I_n &0\\ \Lambda_{22}^{-1} \Lambda_{12}  &I_d\end{pmatrix}
+\begin{pmatrix}I_n &0\\ \Lambda_{22}^{-1} \Lambda_{21}  &I_d\end{pmatrix}
 \begin{pmatrix} y \\ w \end{pmatrix})
 %
 \\&= C exp \left( - \frac{1}{2} ( y^{\top} \Lambda_{12} \Lambda_{22}^{-1} + w^{\top})\Lambda_{22}(\Lambda_{22}^{-1}\Lambda_{21}y + w ) \right) exp(-\frac{1}{2} y^{\top} \Lambda/\Lambda_{22} y)
 \end{aligned}
 $$
-The two terms are, up to a normalization constant, the ones corresponding to $p(w\vert y)$ and $p(y)$.
+See Chapter 13.4: the two terms are, up to a normalization constant (splitting C in two parts), the ones corresponding to $p(w\vert y)$ and $p(y)$.
 %
 \\Now $ \Lambda/\Lambda_{22} = \Lambda_{11} - \Lambda_{12}\Lambda_{22}^{-1} \Lambda_{21} = (\sigma^2 I_n + X H X^{\top})^{-1}$, so 
 $$p(y) = \frac{1}{(2 \pi)^{n/2}\vert  \sigma^2 I_n + X H X^{\top} \vert ^{1/2}} exp (-\frac{1}{2} y^{\top}  (\sigma^2 I_n + X H X^{\top})^{-1} y)$$
@@ -67,15 +67,52 @@ $$p(y) = \frac{1}{(2 \pi)^{n/2}\vert  \sigma^2 I_n + X H X^{\top} \vert ^{1/2}} 
 \vspace{5mm}3) Taking the log yields 
 $$\mathrm{log}(p(y)) = -\frac{n}{2} \mathrm{log} (2 \pi) - \frac{1}{2} \mathrm{log} ( \vert \sigma^2 I_n +X E X^{\top} \vert ) - \frac{1}{2} y^{\top} (\sigma^2  I_n +X E X^{\top} )^{-1} y $$
 %
+%
 \\[5mm]4) In question 2) (marginal distribution), the first term corresponded to $p(w\vert y)$. We have :
 $$ p(w\vert y) = K exp \left( - \frac{1}{2} ( y^{\top} \Lambda_{12} \Lambda_{22}^{-1} + w^{\top})\Lambda_{22}(\Lambda_{22}^{-1}\Lambda_{21}y + w ) \right)$$
-%where recall that $\Lambda_{12} = 
-%TDO compute
+%
 $K = \left( (2\pi)^{d/2} \vert ( \frac{1}{\sigma^2} X^{\top}X + H^{-1})^{-1}\vert^{1/2} \right) ^{-1}$
 %
 %
 \\[5mm]5) In the EM algorithm we learn $\theta = (\sigma^2, \eta)$ to maximize $p_\theta(y)$.
+\\Let $$L(q, \theta) = \sum_w q(w) log(p_\theta(y, w)) - \sum_w q(w- log(q(w))$$
+At iteration $t$, we do $q_{t+1} = argmax_q L(q, \theta_t)$ and $\theta_{t+1} = argmax_\theta L(q_{t+1}, \theta)$.
+%
+\\[5mm]The E step sets $q(w) = p_{\theta_t} (w \vert y)$ using the formula found at 4), using the values of $\sigma$ and $\eta$ contained in $\theta_t$.
+\\After that, in the M step, we maximize $L(Q_{t+1}, \theta)$ with respect to $\theta$, that is solve in $\theta$:
+$$ \frac{\partial L(q_{t+1}, \theta)}{\partial \sigma} = 0$$
+$$ \forall i \in \llbracket 1 , n \rrbracket,  \frac{\partial L(q_{t+1}, \theta}{\partial \eta_i} = 0 $$
+%
+The second sum is a constant with respect to the variables used for partial derivation, so we solve 
+$$\sum_w q(w) \left( \frac{n}{\sigma^2} - \frac{\Vert y - X w \Vert ^2}{\sigma^3} \right)= 0$$
+$$ \forall i \in \llbracket 1 , n \rrbracket,  \sum_w q(w) \left( - \frac{1}{2 \eta_i} + \frac{w_i^2}{2 \eta_i^2} \right) = 0$$
+%
+And in the M step we update the parameters values:
+$$\sigma^2_{t+1} = \frac{1}{n} \sum_w q(w) \Vert y - Xw \Vert ^2$$
+$$ \forall i \in \llbracket 1 , n \rrbracket,  \eta_{i, t+1} = \sum_w q(w) w_i^2$$
 %
 %
 \\[5mm]6) If some $\eta_i$'s are equal to 0, then the corresponding $w_i$'s are equal to zero with probability one. We just remove them, and also the corresponding coordinates in $x_1, \ldots, x_n$. The dimensionality is reduced.
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Learning graphical models structures}
+Let $q$ be a distribution factorizing the graph according to $G$ $$ q(x) = \prod_1^d q(x_i \ x_{\pi_i}$$
+We want to maximize $D(p \Vert q) = \sum_{x } p(x) log(p(x)) - \sum_x p(x) log (q(x)) $, that is to find $q$ minimizing  $\sum_x p(x) log (q(x)) = \sum_x \left( p(x) \sum log(q(x_i \vert x_{\pi_i}) \right)$.
+\\Using $p(x_i, x_{\pi_i}$, we have  $$\sum_x p(x) log (q(x)) = \sum_1^d \sum_{x_i} \sum_{x_i} p(x_i, x_{\pi_i} ) log (q(x_i \vert x_{\pi_i}))$$
+\\For a fixed $i$, we want to minimize $\sum_{x_i} p(x_i, x_{\pi_i}) log (q(x_i \vert x_{\pi_i}))$ under the constraint that $\sum_{x_{\pi_i}} q(x_i \vert x_{\pi_i}) = 1$.
+\\The associated Lagrangian is 
+$$L(q_i, \lambda) = \sum_j p(j, x_{\pi_i})log (q(j \vert x_{\pi_i}) ) - \lambda( \sum_j q(j \vert x_{\pi_i}) - 1)$$
+We solve $$\frac{\partial L }{\partial q(j \vert x_{\pi_i})} = 0$$
+i.e. $q(j \vert x_{\pi_i}) = p(j, x_{\pi_i})/\lambda$
+\\And $p(x_{\pi_i})/\lambda = \sum_j q(j \vert x_{\pi_i}) = 1$, so $q(j \vert x_{\pi_i}) = p(j \vert x_{\pi_i}) $.
 \end{document}
