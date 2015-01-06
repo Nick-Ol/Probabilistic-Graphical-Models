@@ -1,0 +1,81 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[applemac]{inputenc}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{stmaryrd} %llbracket
+\usepackage{float}
+
+\pagestyle{plain}
+
+
+
+\begin{document}
+	\title{Probabilistic graphical models - Take home exam}
+	\author{Mathurin \textsc{Massias}}
+	\date{\today} 
+	\maketitle
+\hspace{-6mm}
+
+\section{Bayesian least square regression}
+
+1) We have 
+$$ \begin{aligned}p(y, w) 
+&= p(y \vert w) * p(w) 
+\\&= \prod\limits_{i=1}^{n} p(y_i \vert w) \prod\limits_{j=1}^{d} p( w_j)  
+\\&=C_1 \prod\limits_{i=1}^{n} exp(- \frac{( y_i - x_i^{\top}w )^2 } {2 \sigma^2}) C_2 \prod\limits_{j=1}^{d} exp(- \frac{w_j^2}{2 \eta_j})
+\\&=C_1 exp(- \frac{\Vert y- X^{\top}w \Vert^2 } {2 \sigma^2}) C_2 exp(-\frac{1}{2} w^{\top} H ^{-1} w)
+\end{aligned}$$
+where 
+\\- $C_1$ and $C_2$ are normalization factors, equal to $\frac{1}{(2\pi)^{n/2} \sigma^n}$ and $\frac{1}{(2 \pi)^{d/2} \vert H^{-1} \vert^{1/2}}$ respectively.
+\\- $H$ is a diagonal matrix with coefficients $(\eta_1, \ldots, \eta_d)$.
+%
+\\[5mm]Putting $z = \begin{pmatrix} y \\ w \end{pmatrix}$ and $C = C_1C_2$ we have:
+$$p(z) = C exp (-\frac{1}{2\sigma^2} z^{\top} 
+\begin{pmatrix} I_n & -X
+\\ X^{\top} & X^{\top}X + \sigma^2 E^{-1} \end{pmatrix}
+z)$$
+%
+Let's denote $$\Lambda = \frac{1}{\sigma^2}\begin{pmatrix} I_n & -X
+\\ -X^{\top} & X^{\top}X + \sigma^2 E^{-1} \end{pmatrix}
+ = \begin{pmatrix} \Lambda_{11} & \Lambda_{12}
+\\ \Lambda_{21} & \Lambda_{22}  \end{pmatrix}
+$$
+As done in Chapter 13, we can use the Schur complement of $\Lambda$ with respect to $\Lambda_{22}$.
+$$\Lambda = 
+\begin{pmatrix}I_n &\Lambda_{12}\Lambda_{22}^{-1} \\ 0  &I_d\end{pmatrix}
+\begin{pmatrix} \Lambda / \Lambda_{22} & 0 \\ 0 &  \Lambda_{22} \end{pmatrix}
+\begin{pmatrix}I_n &0\\ \Lambda_{22}^{-1} \Lambda_{12}  &I_d\end{pmatrix}
+$$
+Hence $$\begin{aligned}p(z) &= C exp (-\frac{1}{2} \begin{pmatrix} y \\ w \end{pmatrix}^{\top} 
+\begin{pmatrix}I_n &\Lambda_{12}\Lambda_{22}^{-1} \\ 0  &I_d\end{pmatrix}
+\begin{pmatrix} \Lambda / \Lambda_{22} & 0 \\ 0 &  \Lambda_{22} \end{pmatrix}
+\begin{pmatrix}I_n &0\\ \Lambda_{22}^{-1} \Lambda_{12}  &I_d\end{pmatrix}
+\begin{pmatrix} y \\ w \end{pmatrix})
+%
+\\&= C exp \left( - \frac{1}{2} ( y^{\top} \Lambda_{12} \Lambda_{22}^{-1} + w^{\top})\Lambda_{22}(\Lambda_{22}^{-1}\Lambda_{21}y + w ) \right) exp(-\frac{1}{2} y^{\top} \Lambda/\Lambda_{22} y)
+\end{aligned}
+$$
+The two terms are, up to a normalization constant, the ones corresponding to $p(w\vert y)$ and $p(y)$.
+%
+\\Now $ \Lambda/\Lambda_{22} = \Lambda_{11} - \Lambda_{12}\Lambda_{22}^{-1} \Lambda_{21} = (\sigma^2 I_n + X H X^{\top})^{-1}$, so 
+$$p(y) = \frac{1}{(2 \pi)^{n/2}\vert  \sigma^2 I_n + X H X^{\top} \vert ^{1/2}} exp (-\frac{1}{2} y^{\top}  (\sigma^2 I_n + X H X^{\top})^{-1} y)$$
+%
+\vspace{5mm}3) Taking the log yields 
+$$\mathrm{log}(p(y)) = -\frac{n}{2} \mathrm{log} (2 \pi) - \frac{1}{2} \mathrm{log} ( \vert \sigma^2 I_n +X E X^{\top} \vert ) - \frac{1}{2} y^{\top} (\sigma^2  I_n +X E X^{\top} )^{-1} y $$
+%
+\\[5mm]4) In question 2) (marginal distribution), the first term corresponded to $p(w\vert y)$. We have :
+$$ p(w\vert y) = K exp \left( - \frac{1}{2} ( y^{\top} \Lambda_{12} \Lambda_{22}^{-1} + w^{\top})\Lambda_{22}(\Lambda_{22}^{-1}\Lambda_{21}y + w ) \right)$$
+%where recall that $\Lambda_{12} = 
+%TDO compute
+$K = \left( (2\pi)^{d/2} \vert ( \frac{1}{\sigma^2} X^{\top}X + H^{-1})^{-1}\vert^{1/2} \right) ^{-1}$
+%
+%
+\\[5mm]5) In the EM algorithm we learn $\theta = (\sigma^2, \eta)$ to maximize $p_\theta(y)$.
+%
+%
+\\[5mm]6) If some $\eta_i$'s are equal to 0, then the corresponding $w_i$'s are equal to zero with probability one. We just remove them, and also the corresponding coordinates in $x_1, \ldots, x_n$. The dimensionality is reduced.
+\end{document}
