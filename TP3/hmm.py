@@ -150,6 +150,7 @@ def update_params(obs_sequence, states, gamma, xi):
     return start_proba, transition_proba, means, covariances
 
 
+# logllh = log P(u(1),u(2),...,u(t))
 # with alpha_scaled we have : logllh =
 # log(sum over states of alpha_scaled[N-1]) - sum over t of (scale_alpha[t])
 def loglike(states, alpha_scaled, scale_alpha):
@@ -206,8 +207,8 @@ def baum_welch(obs_sequence, states, start_proba_init,
 
     logllh = np.asarray(logllh)
 
-    return (start_proba, transition_proba, means, covariances,
-            logllh, iteration)
+    return (all_start_probas, all_transition_probas, all_means,
+            all_covariances, logllh, iteration)
 
 
 def viterbi(obs_sequence, states,

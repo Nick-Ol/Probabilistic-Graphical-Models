@@ -36,6 +36,7 @@ transition_proba_init = np.asarray([[1/2, 1/6, 1/6, 1/6],
                                     [1/6, 1/6, 1/2, 1/6],
                                     [1/6, 1/6, 1/6, 1/2]])
 
+# 2
 alpha_scaled, scale_alpha = hmm.forward(data_test, states,
                                         start_proba_init,
                                         transition_proba_init,
@@ -52,27 +53,37 @@ for i in states:
         y[t] = gamma[t][i]
     plt.figure()
     plt.plot(y)
-    plt.title('State %i' % (i+1))
+    plt.title("State %i" % (i+1))
 
+# 4
 (start_proba1, transition_proba1, means1, covariances1,
  logllh1, iteration1) = hmm.baum_welch(data_train, states, start_proba_init,
                                        transition_proba_init,
                                        means_init, covariances_init,
                                        delta=1e-4)
+# 5
 plt.figure()
 plt.plot(logllh1)
 
-(start_proba2, transition_proba2, means2, covariances2,
- logllh2, iteration2) = hmm.baum_welch(data_test, states, start_proba_init,
-                                       transition_proba_init,
-                                       means_init, covariances_init,
-                                       delta=1e-4)
+logllh2 = []
+for i in range(iteration1+1):
+    alpha_scaled2, scale_alpha2 = hmm.forward(data_test, states,
+                                              start_proba1[i],
+                                              transition_proba1[i],
+                                              means1[i],
+                                              covariances1[i])
+    logllh2.append(hmm.loglike(states, alpha_scaled2, scale_alpha2))
 plt.figure()
 plt.plot(logllh2)
 
+# 6
+print "The log-likelihood for HMM on train data is %f" % (logllh1[-1])
+print "The log-likelihood for HMM on test data is %f" % (logllh2[-1])
+
+# 7
 path1 = hmm.viterbi(data_train, states,
-                    start_proba1, transition_proba1,
-                    means1, covariances1)
+                    start_proba1[-1], transition_proba1[-1],
+                    means1[-1], covariances1[-1])
 
 
 def plotViterbi(data, path, means):
@@ -87,15 +98,49 @@ def plotViterbi(data, path, means):
     for j in range(0, K):
         ax.scatter(means[j, 0], means[j, 1], color="black")
 
-plotViterbi(data_train, path1, means1)
+plt.figure()
+plotViterbi(data_train, path1, means1[-1])
+plt.title("Train data")
 
+# 8
+alpha_scaled, scale_alpha = hmm.forward(data_test, states,
+                                        start_proba1[-1],
+                                        transition_proba1[-1],
+                                        means1[-1],
+                                        covariances1[-1])
+beta_scaled = hmm.backward(data_test, states, transition_proba1[-1],
+                           means1[-1], covariances1[-1], scale_alpha)
+gamma = hmm.gammas(data_test, states, alpha_scaled,
+                   beta_scaled, scale_alpha)
+for i in states:
+    y = np.zeros(100)
+    for t in range(100):
+        y[t] = gamma[t][i]
+    plt.figure()
+    plt.ylim((0, 1))
+    plt.plot(y)
+    plt.title("State %i" % (i+1))
 
+# 9
+most_likely_state = []
+for t in range(100):
+    most_likely_state.append(np.argmax(gamma[t].values()))
+plt.figure()
+plt.ylim((-1, 4))
+plt.plot(most_likely_state)
 
+# 10
+path2 = hmm.viterbi(data_test, states,
+                    start_proba1[-1], transition_proba1[-1],
+                    means1[-1], covariances1[-1])
+plt.figure()
+plotViterbi(data_test, path2, means1[-1])
+plt.title("Test data")
 
-#a = alpha_scaled[499][0]
-#for i in range(0,500):
-#    a /= scale_alpha[i]
-#    
-#b = beta_scaled[400][0]
-#for i in range(499,399,-1):
-#    b /= scale_alpha[i]
+plt.figure()
+plt.ylim((-1, 4))
+plt.plot(path2[:100])
+# Comparison :
+plt.figure()
+plt.ylim((-1, 4))
+plt.plot(np.asarray(most_likely_state)-np.asarray(path2[:100]))
